@@ -1,0 +1,914 @@
+{% extends 'accueil/base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "FAQ - Foire Aux Questions | EMSP" %}{% endblock %}
+
+{% block extra_css %}
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
+<style>
+:root {
+    --bard-bg: #fff;
+    --bard-surface: #f8f9fa;
+    --bard-border: #e8eaed;
+    --bard-text: #202124;
+    --bard-text-secondary: #5f6368;
+    --bard-primary: #8ab4f8;
+    --bard-primary-hover: #aecbfa;
+    --bard-accent: #fdd663;
+    --bard-accent-dark: #e8eaed;
+    --bard-gradient-1: #7c4dff;
+    --bard-gradient-2: #448aff;
+    --bard-gradient-3: #00bfa5;
+}
+
+.bard-chatbot-toggle {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 58px;
+    height: 58px;
+    background: linear-gradient(135deg, var(--bard-gradient-1), var(--bard-gradient-2));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 18px rgba(124, 77, 255, 0.4);
+    z-index: 1000;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.bard-chatbot-toggle:hover {
+    transform: scale(1.08);
+    box-shadow: 0 8px 30px rgba(124, 77, 255, 0.5);
+}
+
+.bard-chatbot-toggle .sparkle-icon {
+    color: white;
+    font-size: 1.6rem;
+}
+
+.bard-chatbot-toggle .close-icon {
+    display: none;
+    color: white;
+    font-size: 1.4rem;
+}
+
+.bard-chatbot-toggle.active .sparkle-icon {
+    display: none;
+}
+
+.bard-chatbot-toggle.active .close-icon {
+    display: block;
+}
+
+.bard-chatbot-container {
+    position: fixed;
+    bottom: 105px;
+    right: 30px;
+    width: 420px;
+    max-width: calc(100vw - 60px);
+    height: 600px;
+    max-height: calc(100vh - 120px);
+    background: var(--bard-bg);
+    border-radius: 24px;
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0,0,0,0.05);
+    z-index: 1000;
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+    font-family: 'Roboto', sans-serif;
+}
+
+.bard-chatbot-container.active {
+    display: flex;
+    animation: bardSlideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes bardSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.bard-chatbot-header {
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    border-bottom: 1px solid var(--bard-border);
+    background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+}
+
+.bard-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--bard-gradient-1), var(--bard-gradient-2), var(--bard-gradient-3));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.bard-avatar::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(255,255,255,0.3) 0%, transparent 50%);
+}
+
+.bard-avatar .material-symbols-rounded {
+    color: white;
+    font-size: 1.5rem;
+    font-variation-settings: 'FILL' 1;
+}
+
+.bard-header-info h4 {
+    margin: 0;
+    font-family: 'Google Sans', sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--bard-text);
+}
+
+.bard-header-info p {
+    margin: 2px 0 0;
+    font-size: 0.75rem;
+    color: var(--bard-text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.bard-header-info p .dot {
+    width: 6px;
+    height: 6px;
+    background: #34a853;
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+.bard-chat-messages {
+    flex: 1;
+    padding: 20px 24px;
+    overflow-y: auto;
+    background: var(--bard-surface);
+    scroll-behavior: smooth;
+}
+
+.bard-message {
+    display: flex;
+    gap: 14px;
+    margin-bottom: 24px;
+    animation: bardFadeIn 0.3s ease;
+}
+
+@keyframes bardFadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.bard-message.user {
+    flex-direction: row-reverse;
+}
+
+.bard-message .bard-avatar {
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+}
+
+.bard-message .bard-avatar .material-symbols-rounded {
+    font-size: 1.2rem;
+}
+
+.bard-message.user .bard-avatar {
+    background: linear-gradient(135deg, var(--bard-gradient-2), var(--bard-gradient-3));
+}
+
+.bard-message-content {
+    max-width: 85%;
+    padding: 16px 20px;
+    border-radius: 20px;
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: var(--bard-text);
+}
+
+.bard-message.bot .bard-message-content {
+    background: white;
+    border-top-left-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+
+.bard-message.user .bard-message-content {
+    background: linear-gradient(135deg, #1a73e8, #3367d6);
+    color: white;
+    border-top-right-radius: 4px;
+    box-shadow: 0 2px 8px rgba(26, 115, 232, 0.3);
+}
+
+.bard-message-content p {
+    margin: 0 0 10px;
+}
+
+.bard-message-content p:last-child {
+    margin-bottom: 0;
+}
+
+.bard-message-content ul {
+    margin: 8px 0;
+    padding-left: 20px;
+}
+
+.bard-message-content li {
+    margin: 4px 0;
+}
+
+.bard-message-content a {
+    color: #8ab4f8;
+    text-decoration: underline;
+}
+
+.bard-message.user .bard-message-content a {
+    color: #fff;
+}
+
+.bard-message-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+    padding-top: 8px;
+    border-top: 1px solid var(--bard-border);
+}
+
+.bard-message-actions button {
+    background: none;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    color: var(--bard-text-secondary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    transition: all 0.2s;
+}
+
+.bard-message-actions button:hover {
+    background: var(--bard-accent-dark);
+    color: var(--bard-text);
+}
+
+.bard-message-actions button .material-symbols-rounded {
+    font-size: 1rem;
+}
+
+.bard-suggestions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.bard-suggestion-chip {
+    background: linear-gradient(135deg, #f8f9fa, #fff);
+    border: 1px solid var(--bard-border);
+    padding: 8px 14px;
+    border-radius: 20px;
+    font-size: 0.8125rem;
+    color: var(--bard-text);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.bard-suggestion-chip:hover {
+    background: white;
+    border-color: #8ab4f8;
+    box-shadow: 0 2px 8px rgba(138, 180, 248, 0.3);
+    transform: translateY(-1px);
+}
+
+.bard-suggestion-chip .material-symbols-rounded {
+    font-size: 1rem;
+    color: var(--bard-gradient-1);
+    font-variation-settings: 'FILL' 1;
+}
+
+.bard-thinking {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 20px;
+    background: white;
+    border-radius: 20px;
+    border-top-left-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    margin-bottom: 24px;
+}
+
+.bard-thinking .bard-avatar {
+    width: 32px;
+    height: 32px;
+}
+
+.bard-thinking .bard-avatar .material-symbols-rounded {
+    font-size: 1rem;
+}
+
+.bard-thinking-text {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--bard-text-secondary);
+    font-size: 0.875rem;
+}
+
+.bard-thinking-dots {
+    display: flex;
+    gap: 4px;
+}
+
+.bard-thinking-dots span {
+    width: 6px;
+    height: 6px;
+    background: var(--bard-gradient-1);
+    border-radius: 50%;
+    animation: bardBounce 1.4s infinite ease-in-out;
+}
+
+.bard-thinking-dots span:nth-child(1) { animation-delay: -0.32s; }
+.bard-thinking-dots span:nth-child(2) { animation-delay: -0.16s; }
+.bard-thinking-dots span:nth-child(3) { animation-delay: 0s; }
+
+@keyframes bardBounce {
+    0%, 80%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-8px); }
+}
+
+.bard-input-area {
+    padding: 16px 20px 20px;
+    background: white;
+    border-top: 1px solid var(--bard-border);
+}
+
+.bard-input-wrapper {
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+    background: var(--bard-surface);
+    border: 1px solid var(--bard-border);
+    border-radius: 28px;
+    padding: 8px 8px 8px 20px;
+    transition: all 0.3s;
+}
+
+.bard-input-wrapper:focus-within {
+    border-color: #8ab4f8;
+    box-shadow: 0 0 0 3px rgba(138, 180, 248, 0.2);
+}
+
+.bard-input-wrapper input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    outline: none;
+    font-size: 0.9375rem;
+    padding: 10px 0;
+    color: var(--bard-text);
+    font-family: 'Roboto', sans-serif;
+}
+
+.bard-input-wrapper input::placeholder {
+    color: var(--bard-text-secondary);
+}
+
+.bard-input-actions {
+    display: flex;
+    gap: 4px;
+}
+
+.bard-input-actions button {
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: transparent;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--bard-text-secondary);
+    transition: all 0.2s;
+}
+
+.bard-input-actions button:hover {
+    background: var(--bard-accent-dark);
+    color: var(--bard-text);
+}
+
+.bard-input-actions button.send-btn {
+    background: linear-gradient(135deg, var(--bard-gradient-1), var(--bard-gradient-2));
+    color: white;
+}
+
+.bard-input-actions button.send-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(124, 77, 255, 0.4);
+}
+
+.bard-input-actions button.send-btn:disabled {
+    background: var(--bard-accent-dark);
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+.bard-input-actions button .material-symbols-rounded {
+    font-size: 1.25rem;
+    font-variation-settings: 'FILL' 1;
+}
+
+.bard-disclaimer {
+    font-size: 0.6875rem;
+    color: var(--bard-text-secondary);
+    text-align: center;
+    margin-top: 10px;
+    padding: 0 20px;
+}
+
+.bard-disclaimer a {
+    color: #8ab4f8;
+    text-decoration: none;
+}
+
+@media (max-width: 480px) {
+    .bard-chatbot-container {
+        width: 100%;
+        height: 100%;
+        max-height: 100vh;
+        bottom: 0;
+        right: 0;
+        border-radius: 0;
+    }
+    
+    .bard-chatbot-toggle {
+        bottom: 20px;
+        right: 20px;
+    }
+    
+    .bard-chatbot-container.active {
+        bottom: 0;
+        right: 0;
+    }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="page-header">
+    <div class="container">
+         <h1>{% trans "FAQ" %}</h1>
+         <p class="lead">{% trans "Foire Aux Questions - Trouvez les réponses à vos questions" %}</p>
+    </div>
+</section>
+
+<!-- FAQ Content -->
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <!-- Search -->
+                <div class="mb-5">
+                    <div class="input-group">
+                        <span class="input-group-text bg-white border-end-0">
+                            <i class="fas fa-search"></i>
+                        </span>
+                        <input type="text" class="form-control border-start-0" placeholder="{% trans 'Rechercher une question...' %}">
+                    </div>
+                </div>
+
+                <!-- Admissions FAQ -->
+                <div class="mb-4">
+                     <h4 class="mb-3"><i class="fas fa-user-plus me-2 text-primary"></i>{% trans "Admission" %}</h4>
+                    
+                    <div class="accordion" id="admissionAccordion">
+                        <div class="accordion-item border-0 shadow-sm mb-3 rounded">
+                            <h5 class="accordion-header">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#admission1">
+                                     {% trans "Quelles sont les conditions d'admission à la FS MENUM ?" %}
+                                </button>
+                            </h5>
+                            <div id="admission1" class="accordion-collapse collapse show">
+                                <div class="accordion-body">
+                                     <p>{% trans "? Les conditions incluent :" %}</p>
+                                    <ul>
+                                        <li>{% trans "Être titulaire d'un licence ou équivalent" %}</li>
+                                        <li>{% trans "Avoir maximum 35 ans" %}</li>
+                                        <li>{% trans "Avoir une expérience professionnelle de 2 ans minimum" %}</li>
+                                        <li>{% trans "Maîtriser le français" %}</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="accordion-item border-0 shadow-sm mb-3 rounded">
+                            <h5 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#admission2">
+                                     {% trans "Comment postuler à l'EMSP ?" %}
+                                </button>
+                            </h5>
+                            <div id="admission2" class="accordion-collapse collapse">
+                                <div class="accordion-body">
+                                    <p>{% trans "Vous pouvez postuler en ligne via notre portail étudiant ou，直接ement sur emsp.k12net.com. Vous devrez remplir un formulaire de candidature et joindre les documents réclamés." %}</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="accordion-item border-0 shadow-sm mb-3 rounded">
+                            <h5 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#admission3">
+                                     {% trans "Quels sont les délais de candidature ?" %}
+                                </button>
+                            </h5>
+                            <div id="admission3" class="accordion-collapse collapse">
+                                <div class="accordion-body">
+                                     <p>{% trans "Les Candidatures ouvrent généralement en Janvier pour la rentrée d'Octobre. Nous vous recommandons de postuler au plus tôt car les places sont limitées." %}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Formation FAQ -->
+                <div class="mb-4">
+                     <h4 class="mb-3"><i class="fas fa-graduation-cap me-2 text-primary"></i>{% trans "Formation" %}</h4>
+                    
+                    <div class="accordion" id="formationAccordion">
+                        <div class="accordion-item border-0 shadow-sm mb-3 rounded">
+                            <h5 class="accordion-header">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#formation1">
+                                     {% trans "Quelle est la durée de la formation FS MENUM ?" %}
+                                </button>
+                            </h5>
+                            <div id="formation1" class="accordion-collapse collapse show">
+                                <div class="accordion-body">
+                                     <p>{% trans "La formation dure 2 ans, divisée en 4 semestres, avec une période de stage en entreprise." %}</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="accordion-item border-0 shadow-sm mb-3 rounded">
+                            <h5 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#formation2">
+                                     {% trans "Les cours sont-ils dispensés en présentiel ?" %}
+                                </button>
+                            </h5>
+                            <div id="formation2" class="accordion-collapse collapse">
+                                <div class="accordion-body">
+                                    <p>{% trans "Oui, les cours sont dispensés en présentiel sur notre campus d'Abidjan. Cependant, certains modules peuvent être suivis à distance via notre plateforme e-learning." %}</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="accordion-item border-0 shadow-sm mb-3 rounded">
+                            <h5 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#formation3">
+                                     {% trans "Quel est le coût de la formation ?" %}
+                                </button>
+                            </h5>
+                            <div id="formation3" class="accordion-collapse collapse">
+                                <div class="accordion-body">
+                                    <p>{% trans "Les frais de scolarité s'élèvent à 2 500 000 FCFAPar an. Des bourses d Excellence peuvent être accordées aux meilleurs candidats." %}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Vie Etudiante FAQ -->
+                <div class="mb-4">
+                     <h4 class="mb-3"><i class="fas fa-users me-2 text-primary"></i>{% trans "Vie Étudiante" %}</h4>
+                    
+                    <div class="accordion" id="studentAccordion">
+                        <div class="accordion-item border-0 shadow-sm mb-3 rounded">
+                            <h5 class="accordion-header">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#student1">
+                                     {% trans "L'école offre-t-elle un hébergement ?" %}
+                                </button>
+                            </h5>
+                            <div id="student1" class="accordion-collapse collapse show">
+                                <div class="accordion-body">
+                                    <p>{% trans "Nous disposons d'une residence universitaire sur le campus. Les demandes d'hébergement doivent être faites lors de l'inscription." %}</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="accordion-item border-0 shadow-sm mb-3 rounded">
+                            <h5 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#student2">
+                                     {% trans "Y a-t-il des activités para académiques ?" %}
+                                </button>
+                            </h5>
+                            <div id="student2" class="accordion-collapse collapse">
+                                <div class="accordion-body">
+                                    <p>{% trans "Oui! L'école dispose de plusieurs clubs étudiants : Club Entrepreneurship, Club Digital, Club Sports, Club Culture, etc." %}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact -->
+                <div class="card border-0 bg-primary text-white p-4 text-center mt-5">
+                    <h4>{% trans "Vous n'avez pas trouvé votre réponse ?" %}</h4>
+                    <p class="mb-3">{% trans "Contactez directement notre service admissions" %}</p>
+                    <a href="{% url 'contact' %}" class="btn btn-light">
+                        <i class="fas fa-envelope me-2"></i>{% trans "Contactez-nous" %}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Bard Chatbot -->
+<div class="bard-chatbot-toggle" id="bardChatbotToggle">
+    <span class="material-symbols-rounded sparkle-icon">auto_awesome</span>
+    <span class="material-symbols-rounded close-icon">close</span>
+</div>
+
+<div class="bard-chatbot-container" id="bardChatbotContainer">
+    <div class="bard-chatbot-header">
+        <div class="bard-avatar">
+            <span class="material-symbols-rounded">psychology</span>
+        </div>
+        <div class="bard-header-info">
+            <h4>Assistant EMSP</h4>
+            <p><span class="dot"></span>En ligne</p>
+        </div>
+    </div>
+    <div class="bard-chat-messages" id="bardChatMessages">
+        <div class="bard-message bot">
+            <div class="bard-avatar">
+                <span class="material-symbols-rounded">psychology</span>
+            </div>
+            <div class="bard-message-content">
+                 <p>{% trans "Bonjour !" %}</p>
+                <p>{% trans "Je suis votre assistant virtuel de l'EMSP. Posez-moi vos questions sur les formations, les admissions, ou tout autre sujet." %}</p>
+                <div class="bard-suggestions">
+                    <button class="bard-suggestion-chip" onclick="sendBardQuickReply('Comment postuler ?')">
+                        <span class="material-symbols-rounded">assignment</span>
+                        {% trans "Comment postuler ?" %}
+                    </button>
+                    <button class="bard-suggestion-chip" onclick="sendBardQuickReply('Quelles formations ?')">
+                        <span class="material-symbols-rounded">school</span>
+                        {% trans "formations ?" %}
+                    </button>
+                    <button class="bard-suggestion-chip" onclick="sendBardQuickReply('Frais de scolarité')">
+                        <span class="material-symbols-rounded">payments</span>
+                        {% trans "Frais de scolarité" %}
+                    </button>
+                    <button class="bard-suggestion-chip" onclick="sendBardQuickReply('Conditions admission')">
+                        <span class="material-symbols-rounded">fact_check</span>
+                        {% trans "Conditions" %}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="bard-thinking" id="bardThinking" style="display: none;">
+        <div class="bard-avatar">
+            <span class="material-symbols-rounded">psychology</span>
+        </div>
+        <div class="bard-thinking-text">
+            <div class="bard-thinking-dots">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <span>{% trans "Je réfléchis..." %}</span>
+        </div>
+    </div>
+    <div class="bard-input-area">
+        <div class="bard-input-wrapper">
+            <input type="text" id="bardInput" placeholder="{% trans 'Posez votre question...' %}">
+            <div class="bard-input-actions">
+                <button class="send-btn" id="bardSendBtn" onclick="sendBardMessage()">
+                    <span class="material-symbols-rounded">send</span>
+                </button>
+            </div>
+        </div>
+        <p class="bard-disclaimer">{% trans "L'assistant peut parfois faire des erreurs." %} <a href="#">{% trans "Vérifiez les informations importantes" %}</a>.</p>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Bard Chatbot FAQ Responses
+const bardResponses = {
+    "postuler": "Pour postuler à l'EMSP :\n\n• Rendez-vous sur notre portail emsp.k12net.com\n• Remplissez le formulaire de candidature\n• Joignez les documents requis\n\nLes candidatures ouvrir en Janvier pour la rentrée d'Octobre.",
+    
+    "comment postuler": "Pour postuler à l'EMSP :\n\n1. Visitez emsp.k12net.com\n2. Créez votre compte\n3. Remplissez le formulaire\n4. Téléchargez vos documents\n\nN'hésitez pas à contacter notre service admissions.",
+    
+    "formation": "L'EMSP propose :\n\n• FS MENUM - Master en Management de l'Économie Numérique (2 ans)\n• FSP - Formations Supérieures Postales\n• Formation Continue pour les professionnels\n\nNos formations sont reconnues internationalement.",
+    
+    "quelles formations": "L'EMSP propose plusieurs formations :\n\n• FS MENUM - Master en Management de l'Économie Numérique (2 ans)\n• FSP - Formations Supérieures Postales\n• Formation Continue\n\n<a href='#'>Voir toutes les formations</a>",
+    
+    "formations": "L'EMSP propose :\n\n• FS MENUM - Master en Management Numérique (2 ans)\n• FSP - Formations Supérieures Postales\n• Formation Continue\n\n<a href='#'>En savoir plus</a>",
+    
+    "frais": "Les frais de scolarité FS MENUM : 2 500 000 FCFA/an\n\nDes bourses d'excellence et facilités de paiement sont disponibles.",
+    
+    "coût": "Frais de scolarité : 2 500 000 FCFAPar an\n\nBourses et facilités de paiement disponibles.",
+    
+    "frais de scolarité": "Les frais de scolarité pour la FS MENUM sont de 2 500 000 FCFAPar an.\n\nDes bourses d'excellence et des facilités de paiement sont proposées aux étudiants méritants.",
+    
+    "délai": "Délais de candidature :\n\n• Ouverture : Janvier\n• Clôture : Juin\n• Rentrée : Octobre\n\nPostulez tôt ! Places limitées.",
+    
+    "délais": "Calendrier :\n\n• Janvier : Ouverture\n• Juin : Clôture\n• Octobre : Rentrée\n\nNous vous recommandons de postuler au plus tôt.",
+    
+    "délais admission": "Les délais de candidature :\n\n• Janvier : Ouverture\n• Juin : Clôture\n• Octobre : Rentrée\n\nPlaces limitées !",
+    
+    "condition": "Conditions d'admission FS MENUM :\n\n• BAC+3 minimum\n• Moins de 35 ans\n• 2 ans d'expérience\n• Français parlé\n\n<a href='#'>Voir toutes les conditions</a>",
+    
+    "conditions": "Conditions d'admission :\n\n• BAC+3 ou équivalent\n• Maximum 35 ans\n• 2 ans d'expérience\n• Français obligatoire\n\n<a href='#'>En savoir plus</a>",
+    
+    "admission": "Conditions d'admission FS MENUM :\n\n• BAC+3 minimum\n• Moins de 35 ans\n• 2 ans d'expérience\n• Français\n\n<a href='#'>Voir toutes les conditions</a>",
+    
+    "diplôm": "Les diplômes EMSP sont reconnus dans tous les pays francophones !\n\nNous délivrons :\n• Master en Management Numérique\n• Certificats professionnels\n• Formations continues",
+    
+    "reconn": "Oui ! Les diplômes EMSP sont reconnus internationally. L'école est accréditée par l'Union Postale Universelle (UPU).",
+    
+    "où": "L'EMSP est situé à Abidjan, Côte d'Ivoire.\n\nCampus avec : bibliothèque, Laboratoires informatique, Terrains sportifs, Résidence universitaire.",
+    
+    "localisation": "L'EMSP - Abidjan, Côte d'Ivoire\n\nContact :\n+225 27 21 21 45 60\ncontact@emsp.int",
+    
+    "contact": "Contactez-nous :\n\n• Téléphone : +225 27 21 21 45 60 / 61\n• Email : contact@emsp.int\n• Site : www.emsp.int\n\n<a href='#'>Formulaire de contact</a>",
+    
+    "héberg": "Oui ! Résidence universitaire :\n\n• Chambres individuelles/doubles\n• Restauration\n• WiFi gratuit\n• Sécurité 24h/24\n\nDemande lors de l'inscription.",
+    
+    "hébergement": "Nous proposons une résidence universitaire avec chambres, restauration et espaces de travail. Demande lors de l'inscription."
+};
+
+// Elements
+const bardToggle = document.getElementById('bardChatbotToggle');
+const bardContainer = document.getElementById('bardChatbotContainer');
+const bardInput = document.getElementById('bardInput');
+const bardMessages = document.getElementById('bardChatMessages');
+const bardThinking = document.getElementById('bardThinking');
+const bardSendBtn = document.getElementById('bardSendBtn');
+
+// Toggle Bard Chatbot
+bardToggle.addEventListener('click', () => {
+    bardToggle.classList.toggle('active');
+    bardContainer.classList.toggle('active');
+    if (bardContainer.classList.contains('active')) {
+        setTimeout(() => bardInput.focus(), 300);
+    }
+});
+
+// Send message
+function sendBardMessage() {
+    const message = bardInput.value.trim();
+    if (message) {
+        addBardMessage(message, 'user');
+        bardInput.value = '';
+        updateSendButton();
+        showBardThinking();
+        
+        setTimeout(() => {
+            hideBardThinking();
+            getBardResponse(message);
+        }, 1200);
+    }
+}
+
+// Send quick reply
+function sendBardQuickReply(message) {
+    addBardMessage(message, 'user');
+    showBardThinking();
+    setTimeout(() => {
+        hideBardThinking();
+        getBardResponse(message);
+    }, 1000);
+}
+
+// Add message to chat
+function addBardMessage(content, sender) {
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `bard-message ${sender}`;
+    
+    if (sender === 'bot') {
+        messageDiv.innerHTML = `
+            <div class="bard-avatar">
+                <span class="material-symbols-rounded">psychology</span>
+            </div>
+            <div class="bard-message-content">
+                ${content}
+                <div class="bard-message-actions">
+                    <button onclick="copyBardMessage(this)">
+                        <span class="material-symbols-rounded">content_copy</span>
+                        Copier
+                    </button>
+                    <button onclick="regenerateBardResponse()">
+                        <span class="material-symbols-rounded">refresh</span>
+                        Recommencer
+                    </button>
+                </div>
+            </div>
+        `;
+    } else {
+        messageDiv.innerHTML = `
+            <div class="bard-message-content">
+                ${content}
+            </div>
+            <div class="bard-avatar">
+                <span class="material-symbols-rounded">person</span>
+            </div>
+        `;
+    }
+    
+    bardMessages.appendChild(messageDiv);
+    bardMessages.scrollTop = bardMessages.scrollHeight;
+}
+
+// Show thinking
+function showBardThinking() {
+    bardThinking.style.display = 'flex';
+    bardMessages.appendChild(bardThinking);
+    bardMessages.scrollTop = bardMessages.scrollHeight;
+}
+
+// Hide thinking
+function hideBardThinking() {
+    bardThinking.style.display = 'none';
+}
+
+// Get response
+function getBardResponse(message) {
+    let response = "Je n'ai pas bien compris votre question. 😊\n\nEssayez ces questions :\n• Comment postuler ?\n• Quelles formations ?\n• Frais de scolarité\n• Conditions d'admission\n\nOu <a href='#'>contactez-nous</a> directement.";
+    
+    const lowerMsg = message.toLowerCase();
+    
+    for (const [key, value] of Object.entries(bardResponses)) {
+        if (lowerMsg.includes(key)) {
+            response = value;
+            break;
+        }
+    }
+    
+    addBardMessage(response, 'bot');
+}
+
+// Update send button state
+function updateSendButton() {
+    bardSendBtn.disabled = !bardInput.value.trim();
+}
+
+bardInput.addEventListener('input', updateSendButton);
+
+// Copy message
+function copyBardMessage(btn) {
+    const text = btn.closest('.bard-message-content').innerText.replace('CopierRecommencer', '').trim();
+    navigator.clipboard.writeText(text);
+    btn.innerHTML = '<span class="material-symbols-rounded">check</span> Copié !';
+    setTimeout(() => {
+        btn.innerHTML = '<span class="material-symbols-rounded">content_copy</span> Copier';
+    }, 2000);
+}
+
+// Regenerate response
+function regenerateBardResponse() {
+    showBardThinking();
+    setTimeout(() => {
+        hideBardThinking();
+    }, 800);
+}
+
+// Enter key to send
+bardInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+        sendBardMessage();
+    }
+});
+</script>
+{% endblock %}

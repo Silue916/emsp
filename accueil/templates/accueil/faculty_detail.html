@@ -1,0 +1,82 @@
+{% extends 'accueil/base.html' %}
+
+{% block title %}{{ faculty.name }} - Université{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="page-header">
+    <div class="container">
+        <h1>{{ faculty.name }}</h1>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'home' %}">Accueil</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'faculties' %}">Facultés</a></li>
+                <li class="breadcrumb-item active">{{ faculty.name }}</li>
+            </ol>
+        </nav>
+    </div>
+</section>
+
+<!-- Faculty Detail -->
+<section class="faculty-detail py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="faculty-description">
+                    <h2>À propos de la faculté</h2>
+                    <p>{{ faculty.description }}</p>
+                </div>
+                
+                {% if departments %}
+                <div class="departments-section mt-5">
+                    <h2>Départements</h2>
+                    <div class="row">
+                        {% for dept in departments %}
+                        <div class="col-md-6 mb-4">
+                            <div class="department-card">
+                                <h3>{{ dept.name }}</h3>
+                                <p>{{ dept.description|truncatewords:20 }}</p>
+                                {% if dept.head %}
+                                <p class="head-info"><strong>Responsable:</strong> {{ dept.head }}</p>
+                                {% endif %}
+                                {% if dept.email %}
+                                <a href="mailto:{{ dept.email }}"><i class="fas fa-envelope"></i> {{ dept.email }}</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+            
+            <div class="col-lg-4">
+                <div class="faculty-sidebar">
+                    <div class="sidebar-card">
+                        <h4>Responsable de la faculté</h4>
+                        {% if faculty.dean %}
+                        <p class="dean-name">{{ faculty.dean }}</p>
+                        {% else %}
+                        <p>À venir</p>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="sidebar-card">
+                        <h4>Contact</h4>
+                        {% if faculty.email %}
+                        <p><i class="fas fa-envelope"></i> <a href="mailto:{{ faculty.email }}">{{ faculty.email }}</a></p>
+                        {% endif %}
+                        {% if faculty.phone %}
+                        <p><i class="fas fa-phone"></i> {{ faculty.phone }}</p>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="sidebar-card">
+                        <a href="{% url 'admissions' %}" class="btn btn-primary w-100">Candidatez</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

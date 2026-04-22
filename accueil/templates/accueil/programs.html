@@ -1,0 +1,79 @@
+{% extends 'accueil/base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Programmes - Université" %}{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="page-header">
+    <div class="container">
+         <h1>{% trans "Nos Formations" %}</h1>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                 <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans "Accueil" %}</a></li>
+                 <li class="breadcrumb-item active">{% trans "Programmes" %}</li>
+            </ol>
+        </nav>
+    </div>
+</section>
+
+<!-- Programs Section -->
+<section class="programs-section py-5">
+    <div class="container">
+        <!-- Filters -->
+        <div class="filters mb-4">
+            <form method="get" class="row g-3">
+                <div class="col-md-4">
+                     <label class="form-label">{% trans "Type de diplôme" %}</label>
+                    <select name="degree" class="form-select">
+                         <option value="">{% trans "Tous les diplômes" %}</option>
+                        <option value="licence" {% if degree_filter == 'licence' %}selected{% endif %}>{% trans "Licence" %}</option>
+                        <option value="master" {% if degree_filter == 'master' %}selected{% endif %}>{% trans "Master" %}</option>
+                        <option value="doctorat" {% if degree_filter == 'doctorat' %}selected{% endif %}>{% trans "Doctorat" %}</option>
+                        <option value="formation_continue" {% if degree_filter == 'formation_continue' %}selected{% endif %}>{% trans "Formation Continue" %}</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                     <label class="form-label">{% trans "Faculté" %}</label>
+                    <select name="faculty" class="form-select">
+                         <option value="">{% trans "Toutes les facultés" %}</option>
+                        {% for faculty in faculties %}
+                        <option value="{{ faculty.slug }}" {% if faculty_filter == faculty.slug %}selected{% endif %}>{{ faculty.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-4 d-flex align-items-end">
+                     <button type="submit" class="btn btn-primary w-100">{% trans "Filtrer" %}</button>
+                </div>
+            </form>
+        </div>
+        
+        <!-- Programs List -->
+        <div class="row">
+            {% for program in programs %}
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="program-card">
+                    <span class="program-degree">{{ program.get_degree_type_display }}</span>
+                    <h3>{{ program.name }}</h3>
+                    <p class="program-faculty">{{ program.department.faculty.name }} - {{ program.department.name }}</p>
+                    <p>{{ program.description|truncatewords:20 }}</p>
+                    <div class="program-meta">
+                        {% if program.duration %}
+                        <span><i class="fas fa-clock"></i> {{ program.duration }}</span>
+                        {% endif %}
+                        {% if program.credits %}
+                        <span><i class="fas fa-graduation-cap"></i> {{ program.credits }} crédits</span>
+                        {% endif %}
+                    </div>
+                     <a href="{% url 'program_detail' program.slug %}" class="btn btn-outline-primary">{% trans "En savoir plus" %}</a>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center">
+                 <p>{% trans "Aucun programme trouvé." %}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

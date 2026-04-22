@@ -1,0 +1,48 @@
+{% extends 'accueil/base.html' %}
+
+{% block title %}{{ requirement.title }} - Université{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="page-header">
+    <div class="container">
+        <h1>{{ requirement.title }}</h1>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'home' %}">Accueil</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'admissions' %}">Admission</a></li>
+                <li class="breadcrumb-item active">{{ requirement.title }}</li>
+            </ol>
+        </nav>
+    </div>
+</section>
+
+<!-- Admission Detail -->
+<section class="admission-detail py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="requirement-content">
+                    <span class="badge bg-primary mb-3">{{ requirement.get_degree_type_display }}</span>
+                    
+                    <div class="content">
+                        {{ requirement.content|linebreaks }}
+                    </div>
+                    
+                    {% if requirement.deadline %}
+                    <div class="deadline-box mt-4">
+                        <h4><i class="fas fa-calendar"></i> Date limite de candidature</h4>
+                        <p class="deadline-date">{{ requirement.deadline|date:"d F Y" }}</p>
+                    </div>
+                    {% endif %}
+                    
+                    <div class="mt-4">
+                        <a href="{% url 'admissions' %}" class="btn btn-outline-primary">Retour aux admissions</a>
+                        <a href="{% url 'contact' %}" class="btn btn-primary ms-2">Contactez-nous</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

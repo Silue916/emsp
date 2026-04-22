@@ -1,0 +1,203 @@
+{% load static i18n %}
+<!DOCTYPE html>
+<html lang="{{ request.LANGUAGE_CODE|default:'fr' }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5.0, user-scalable=yes">
+    <meta name="description" content="{% block meta_description %}{% trans 'EMSP - École Multinationale des Postes. Formation d\'excellence en management postal et numérique.' %}{% endblock %}">
+    <meta name="keywords" content="{% block meta_keywords %}EMSP, école, poste, formation, Afrique, management, numérique{% endblock %}">
+    <meta name="author" content="{{ SITE_NAME|default:'EMSP' }}">
+    <meta property="og:title" content="{% block og_title %}{{ SITE_NAME|default:'EMSP' }}{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}{{ SITE_TAGLINE|default:'École Multinationale des Postes' }}{% endblock %}">
+    <meta property="og:type" content="website">
+    <title>{% block title %}{% trans "EMSP - École Multinationale des Postes" %}{% endblock %}</title>
+     
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'accueil/css/style.css' %}">
+    
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <a class="visually-hidden-focusable" href="#content">{% trans "Aller au contenu" %}</a>
+    <!-- Header -->
+    <header class="site-header">
+        <div class="top-bar">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-md-7">
+                        <span class="contact-info">
+                            <i class="fas fa-phone-alt"></i> {{ CONTACT_PHONE|default:"+225 27 21 21 45 60" }}
+                            <i class="fas fa-envelope"></i> {{ CONTACT_EMAIL|default:"contact@emsp.int" }}
+                        </span>
+                    </div>
+                    <div class="col-md-5 text-end">
+                        <a href="#" aria-label="{% trans 'Facebook' %}"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="{% trans 'Twitter' %}"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="{% trans 'LinkedIn' %}"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" aria-label="{% trans 'Instagram' %}"><i class="fab fa-instagram"></i></a>
+                        <form action="{% url 'set_language' %}" method="post" class="d-inline">
+                            {% csrf_token %}
+                            <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                            <button type="submit" name="language" value="fr" class="btn btn-link p-0 {% if request.LANGUAGE_CODE|slice:':2' == 'fr' %}active{% endif %}">FR</button>
+                            <span class="lang-separator">|</span>
+                            <button type="submit" name="language" value="en" class="btn btn-link p-0 {% if request.LANGUAGE_CODE|slice:':2' == 'en' %}active{% endif %}">EN</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <nav class="navbar navbar-expand-lg navbar-light bg-white">
+            <div class="container">
+                <a class="navbar-brand d-flex align-items-center" href="{% url 'home' %}">
+                    <i class="fas fa-university me-2"></i>
+                    <span>EMSP</span>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="institutionDropdown" role="button" data-bs-toggle="dropdown">
+                                {% trans "L'Institution" %}
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="institutionDropdown">
+                                <li><a class="dropdown-item" href="{% url 'about' %}">{% trans "À propos de l'EMSP" %}</a></li>
+                                <li><a class="dropdown-item" href="{% url 'mot_directeur' %}">{% trans "Mot du Directeur Général" %}</a></li>
+                                <li><a class="dropdown-item" href="{% url 'perspectives' %}">{% trans "Perspectives" %}</a></li>
+                                <li><a class="dropdown-item" href="{% url 'psd_2022_2025' %}">{% trans "PSD 2022-2025" %}</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="academicDropdown" role="button" data-bs-toggle="dropdown">
+                                {% trans "Formations" %}
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="academicDropdown">
+                                <li><a class="dropdown-item" href="{% url 'programs' %}">{% trans "Formations Supérieures Postales (FSP)" %}</a></li>
+                                <li><a class="dropdown-item" href="{% url 'fs_menum' %}">FS MENUM</a></li>
+                                <li><a class="dropdown-item" href="{% url 'programs' %}">{% trans "Mastère Spécialisé en Régulation" %}</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="{% url 'admissions' %}">{% trans "Conditions d'admission" %}</a></li>
+                                <li><a class="dropdown-item" href="{% url 'corps_enseignant' %}">{% trans "Corps Enseignant" %}</a></li>
+                                <li><a class="dropdown-item" href="{% url 'resultats_academiques' %}">{% trans "Résultats Académiques" %}</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'news' %}">{% trans "News & Blog" %}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'mediatheque' %}">{% trans "Médiathèque" %}</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="studentDropdown" role="button" data-bs-toggle="dropdown">
+                                {% trans "Espace Étudiant" %}
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="studentDropdown">
+                                <li><a class="dropdown-item" href="{% url 'admissions' %}">{% trans "Admission" %}</a></li>
+                                <li><a class="dropdown-item" href="{% url 'scolarite' %}">{% trans "Scolarité" %}</a></li>
+                                <li><a class="dropdown-item" href="{% url 'stages' %}">{% trans "Stages" %}</a></li>
+                                <li><a class="dropdown-item" href="{% url 'vie_campus' %}">{% trans "Vie sur le Campus" %}</a></li>
+                                <li><a class="dropdown-item" href="{% url 'bibliotheque' %}">{% trans "Bibliothèque" %}</a></li>
+                                <li><a class="dropdown-item" href="{% url 'vie_associative' %}">{% trans "Vie Associative" %}</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'faq' %}">{% trans "FAQ" %}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'contact' %}">{% trans "Nous Contacter" %}</a>
+                        </li>
+                    </ul>
+                    <a href="https://emsp.k12net.com/" target="_blank" rel="noopener noreferrer" class="btn ms-lg-3 portal-btn">
+                        <i class="fas fa-user-circle me-2"></i>{% trans "Portail Étudiant" %}
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main id="content" tabindex="-1">
+        {% if messages %}
+            <div class="container mt-3">
+                {% for message in messages %}
+                    <div class="alert alert-{% if 'error' in message.tags %}danger{% elif 'success' in message.tags %}success{% elif 'warning' in message.tags %}warning{% else %}info{% endif %} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="{% trans 'Fermer' %}"></button>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <div class="university-brand"><i class="fas fa-university me-2"></i>EMSP</div>
+                    <p>{% trans "École Multinationale des Postes - Formation d'excellence en management postal et numérique." %}</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="{% trans 'Facebook' %}"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="{% trans 'Twitter' %}"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="{% trans 'LinkedIn' %}"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" aria-label="{% trans 'Instagram' %}"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="{% trans 'YouTube' %}"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 mb-4">
+                    <h5>{% trans "Formations" %}</h5>
+                    <ul class="footer-links">
+                        <li><a href="{% url 'programs' %}">{% trans "Formations" %}</a></li>
+                        <li><a href="{% url 'fs_menum' %}">FS MENUM</a></li>
+                        <li><a href="{% url 'corps_enseignant' %}">{% trans "Corps Enseignant" %}</a></li>
+                        <li><a href="{% url 'admissions' %}">{% trans "Admission" %}</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 mb-4">
+                    <h5>{% trans "Liens rapides" %}</h5>
+                    <ul class="footer-links">
+                        <li><a href="{% url 'admissions' %}">{% trans "Admission" %}</a></li>
+                        <li><a href="{% url 'vie_campus' %}">{% trans "Vie Campus" %}</a></li>
+                        <li><a href="{% url 'mediatheque' %}">{% trans "Médiathèque" %}</a></li>
+                        <li><a href="{% url 'faq' %}">{% trans "FAQ" %}</a></li>
+                        <li><a href="{% url 'contact' %}">{% trans "Contact" %}</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <h5>{% trans "Contact" %}</h5>
+                    <ul class="contact-list">
+                        <li><i class="fas fa-map-marker-alt"></i> {{ CONTACT_ADDRESS|default:"Abidjan, Côte d'Ivoire" }}</li>
+                        <li><i class="fas fa-phone-alt"></i> {{ CONTACT_PHONE|default:"+225 27 21 21 45 60 / 61" }}</li>
+                        <li><i class="fas fa-envelope"></i> {{ CONTACT_EMAIL|default:"contact@emsp.int" }}</li>
+                        <li><i class="fas fa-globe"></i> www.emsp.int</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <p>&copy; {% now "Y" %} {{ SITE_NAME|default:"EMSP" }} - {{ SITE_TAGLINE|default:"École Multinationale des Postes" }}. {% trans "Tous droits réservés." %}
+                        {% if user.is_staff %} | <a href="/admin/" class="text-decoration-underline">{% trans "Administration" %}</a>{% endif %}
+                        </p>
+                    </div>
+                    <div class="col-md-6 text-md-end">
+                        <a href="{% url 'mentions_legales' %}">{% trans "Mentions légales" %}</a> |
+                        <a href="{% url 'politique_confidentialite' %}">{% trans "Politique de confidentialité" %}</a> |
+                        <a href="{% url 'plan_du_site' %}">{% trans "Plan du site" %}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

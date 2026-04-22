@@ -1,0 +1,67 @@
+{% extends 'accueil/base.html' %}
+
+{% block title %}{{ news.title }} - Université{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="page-header">
+    <div class="container">
+        <h1>{{ news.title }}</h1>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'home' %}">Accueil</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'news' %}">Actualités</a></li>
+                <li class="breadcrumb-item active">{{ news.title|truncatewords:3 }}</li>
+            </ol>
+        </nav>
+    </div>
+</section>
+
+<!-- News Detail -->
+<section class="news-detail py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <article class="news-article">
+                    {% if news.image %}
+                    <img src="{{ news.image.url }}" alt="{{ news.title }}" class="img-fluid mb-4">
+                    {% endif %}
+                    
+                    <div class="news-meta mb-4">
+                        <span class="news-category badge bg-primary">{{ news.get_category_display }}</span>
+                        <span class="news-date"><i class="fas fa-calendar"></i> {{ news.published_at|date:"d F Y" }}</span>
+                    </div>
+                    
+                    <div class="news-body">
+                        {{ news.content|linebreaks }}
+                    </div>
+                    
+                    <div class="share-buttons mt-4">
+                        <p>Partager:</p>
+                        <a href="#" class="btn btn-sm btn-primary"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="btn btn-sm btn-info"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="btn btn-sm btn-primary"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </article>
+            </div>
+            
+            <div class="col-lg-4">
+                {% if related_news %}
+                <div class="related-news">
+                    <h3>Actualités liées</h3>
+                    {% for item in related_news %}
+                    <div class="related-item mb-3">
+                        {% if item.image %}
+                        <img src="{{ item.image.url }}" alt="{{ item.title }}" class="img-fluid">
+                        {% endif %}
+                        <h4><a href="{% url 'news_detail' item.slug %}">{{ item.title }}</a></h4>
+                        <p class="date">{{ item.published_at|date:"d F Y" }}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

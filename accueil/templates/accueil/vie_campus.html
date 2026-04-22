@@ -1,0 +1,155 @@
+{% extends 'accueil/base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Vie sur le Campus | EMSP" %}{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="page-header">
+    <div class="container">
+         <h1>{% trans "Vie sur le Campus" %}</h1>
+        <p class="lead">Découvrez la vie estudiante à l'EMSP</p>
+    </div>
+</section>
+
+<!-- Content -->
+<section class="py-5">
+    <div class="container">
+        <!-- Intro -->
+        <div class="row mb-5">
+            <div class="col-lg-8 mx-auto text-center">
+                 <h2>{% trans "Une vie campus enrichissante" %}</h2>
+                <p class="lead">{% trans "L'EMSP offre un environnement propice à l'apprentissage et au développement personnel des étudiants." %}</p>
+            </div>
+        </div>
+
+        <!-- Infrastructure -->
+        <div class="row mb-5">
+            <div class="col-12">
+                <h3 class="mb-4"><i class="fas fa-building me-2 text-primary"></i>{% trans "Infrastructure" %}</h3>
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <div class="card border-0 shadow-sm h-100">
+                            <img src="https://images.unsplash.com/photo-1521587760476-6c12a4b040da?w=400" alt="Bibliothèque" class="card-img-top" style="height: 200px; object-fit: cover;">
+                            <div class="card-body">
+                                <h5><i class="fas fa-book me-2 text-primary"></i>{% trans "Bibliothèque" %}</h5>
+                                <p class="text-muted">{% trans "Plus de 10 000 ouvrages, revues et ressources numériques" %}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card border-0 shadow-sm h-100">
+                            <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=400" alt="Salles de cours" class="card-img-top" style="height: 200px; object-fit: cover;">
+                            <div class="card-body">
+                                <h5><i class="fas fa-chalkboard-teacher me-2 text-primary"></i>{% trans "Salles de cours" %}</h5>
+                                <p class="text-muted">{% trans "Salles équipées de tableaux interactifs et connexions internet" %}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card border-0 shadow-sm h-100">
+                            <img src="https://images.unsplash.com/photo-1576267423445-b2e0074d68a4?w=400" alt="Laboratoires" class="card-img-top" style="height: 200px; object-fit: cover;">
+                            <div class="card-body">
+                                <h5><i class="fas fa-laptop me-2 text-primary"></i>{% trans "Laboratoires" %}</h5>
+                                <p class="text-muted">{% trans "Laboratoires informatiques dernière génération" %}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Vie Associative -->
+        <div class="row mb-5">
+            <div class="col-12">
+                <h3 class="mb-4"><i class="fas fa-users me-2 text-primary"></i>{% trans "Vie Associative" %}</h3>
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <div class="card border-0 shadow-sm">
+                            <div class="card-body">
+                                <h5><i class="fas fa-lightbulb me-2 text-warning"></i>{% trans "Club Entrepreneurship" %}</h5>
+                                 <p>{% trans "Pour les futurs entrepreneurs et innovateurs" %}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card border-0 shadow-sm">
+                            <div class="card-body">
+                                <h5><i class="fas fa-running me-2 text-success"></i>{% trans "Club Sports" %}</h5>
+                                 <p>{% trans "Football, basketball, volleyball, athletics" %}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card border-0 shadow-sm">
+                            <div class="card-body">
+                                <h5><i class="fas fa-music me-2 text-info"></i>{% trans "Club Culture" %}</h5>
+                                 <p>{% trans "Musique, danse, théâtre et arts visuels" %}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card border-0 shadow-sm">
+                            <div class="card-body">
+                                <h5><i class="fas fa-globe me-2 text-primary"></i>{% trans "Club International" %}</h5>
+                                 <p>{% trans "Échange culturel et partenariats internationaux" %}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Residence -->
+        <div class="row mb-5">
+            <div class="col-lg-6">
+                <img src="https://images.unsplash.com/photo-1555854877-bab0e564b8d5?w=600" alt="Résidence" class="img-fluid rounded shadow">
+            </div>
+            <div class="col-lg-6">
+                <h3 class="mt-3 mt-lg-0"><i class="fas fa-home me-2 text-primary"></i>{% trans "Résidence Universitaire" %}</h3>
+                <p>{% trans "L'EMSP propose une residence universitaire moderne sur le campus avec :" %}</p>
+                <ul class="list-unstyled">
+                    <li class="mb-2"><i class="fas fa-check text-primary me-2"></i>{% trans "Chambres individuelles et doubles" %}</li>
+                    <li class="mb-2"><i class="fas fa-check text-primary me-2"></i>{% trans "Salle de restauration" %}</li>
+                    <li class="mb-2"><i class="fas fa-check text-primary me-2"></i>{% trans "Espaces de travail communs" %}</li>
+                    <li class="mb-2"><i class="fas fa-check text-primary me-2"></i>{% trans "Connexion internet wifi" %}</li>
+                    <li class="mb-2"><i class="fas fa-check text-primary me-2"></i>{% trans "Sécurité 24h/24" %}</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Sports -->
+        <div class="row">
+            <div class="col-12">
+                <h3 class="mb-4"><i class="fas fa-football-ball me-2 text-primary"></i>{% trans "Installations Sportives" %}</h3>
+                <div class="row g-4">
+                    <div class="col-md-3">
+                        <div class="text-center p-4 border rounded shadow-sm">
+                            <i class="fas fa-futbol fa-2x text-primary mb-3"></i>
+                             <h6>{% trans "Terrain de Football" %}</h6>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="text-center p-4 border rounded shadow-sm">
+                            <i class="fas fa-basketball-ball fa-2x text-primary mb-3"></i>
+                             <h6>{% trans "Terrain de Basketball" %}</h6>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="text-center p-4 border rounded shadow-sm">
+                            <i class="fas fa-volleyball-ball fa-2x text-primary mb-3"></i>
+                             <h6>{% trans "Terrain de Volleyball" %}</h6>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="text-center p-4 border rounded shadow-sm">
+                            <i class="fas fa-dumbbell fa-2x text-primary mb-3"></i>
+                             <h6>{% trans "Salle de Sport" %}</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

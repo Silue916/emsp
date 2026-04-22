@@ -1,0 +1,119 @@
+{% extends "admin/index.html" %}
+{% load i18n static %}
+
+{% block extrastyle %}
+{{ block.super }}
+<style>
+    :root {
+        --emsp-primary: #147c71;
+        --emsp-primary-dark: #0f5c52;
+        --emsp-accent: #d4a017;
+    }
+    #header {
+        background: linear-gradient(135deg, var(--emsp-primary-dark) 0%, var(--emsp-primary) 100%);
+    }
+    .module h2, .module caption, #content-related .module h2 { background: var(--emsp-primary); }
+    .object-tools a { background: var(--emsp-primary); }
+    .object-tools a:hover { background: var(--emsp-primary-dark); }
+    .button, input[type="submit"], .submit-row input { background: var(--emsp-primary); }
+    .button:hover, input[type="submit"]:hover { background: var(--emsp-primary-dark); }
+    .paginator a:hover { background: var(--emsp-primary); color: #fff; }
+
+    .emsp-welcome {
+        background: linear-gradient(135deg, #147c71 0%, #0f5c52 100%);
+        color: #fff;
+        padding: 25px 30px;
+        border-radius: 12px;
+        margin-bottom: 25px;
+        box-shadow: 0 4px 15px rgba(20,124,113,0.25);
+    }
+    .emsp-welcome h2 { color: #fff; margin: 0 0 6px 0; font-size: 1.5rem; }
+    .emsp-welcome p { margin: 0; opacity: 0.92; }
+
+    .quick-links {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 15px;
+        margin-bottom: 30px;
+    }
+    .quick-link {
+        display: block;
+        padding: 20px;
+        border-radius: 10px;
+        text-decoration: none;
+        color: #fff !important;
+        font-weight: 600;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        transition: transform .2s ease, box-shadow .2s ease;
+        background: #147c71;
+    }
+    .quick-link:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+    }
+    .quick-link .ql-icon { font-size: 2rem; margin-bottom: 8px; display: block; }
+    .quick-link .ql-label { font-size: 1.05rem; }
+    .quick-link .ql-sub { display: block; font-weight: 400; opacity: 0.85; font-size: 0.85rem; margin-top: 4px; }
+
+    .ql-news { background: #1976d2; }
+    .ql-events { background: #388e3c; }
+    .ql-slider { background: #f57c00; }
+    .ql-faculty { background: #7b1fa2; }
+    .ql-contact { background: #c0392b; }
+    .ql-settings { background: #455a64; }
+
+    @media (max-width: 768px) {
+        .quick-links {
+            grid-template-columns: 1fr;
+        }
+        .emsp-welcome {
+            padding: 20px;
+        }
+        .emsp-welcome h2 {
+            font-size: 1.25rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="emsp-welcome">
+    <h2>{% trans "Bienvenue dans l'administration EMSP" %}</h2>
+    <p>{% trans "Gérez l'intégralité du contenu du site de l'École Multinationale des Postes depuis ce tableau de bord." %}</p>
+</div>
+
+<div class="quick-links">
+    <a href="{% url 'admin:accueil_news_changelist' %}" class="quick-link ql-news">
+        <span class="ql-icon">📰</span>
+        <span class="ql-label">{% trans "Actualités" %}</span>
+        <span class="ql-sub">{% trans "Gérer les news" %}</span>
+    </a>
+    <a href="{% url 'admin:accueil_event_changelist' %}" class="quick-link ql-events">
+        <span class="ql-icon">📅</span>
+        <span class="ql-label">{% trans "Événements" %}</span>
+        <span class="ql-sub">{% trans "Gérer les événements" %}</span>
+    </a>
+    <a href="{% url 'admin:accueil_slider_changelist' %}" class="quick-link ql-slider">
+        <span class="ql-icon">🖼️</span>
+        <span class="ql-label">{% trans "Carousel" %}</span>
+        <span class="ql-sub">{% trans "Slides accueil" %}</span>
+    </a>
+    <a href="{% url 'admin:accueil_faculty_changelist' %}" class="quick-link ql-faculty">
+        <span class="ql-icon">🏛️</span>
+        <span class="ql-label">{% trans "Facultés" %}</span>
+        <span class="ql-sub">{% trans "Structure académique" %}</span>
+    </a>
+    <a href="{% url 'admin:accueil_contactmessage_changelist' %}" class="quick-link ql-contact">
+        <span class="ql-icon">✉️</span>
+        <span class="ql-label">{% trans "Messages" %}</span>
+        <span class="ql-sub">{% trans "Formulaire contact" %}</span>
+    </a>
+    <a href="{% url 'admin:accueil_sitesettings_changelist' %}" class="quick-link ql-settings">
+        <span class="ql-icon">⚙️</span>
+        <span class="ql-label">{% trans "Paramètres" %}</span>
+        <span class="ql-sub">{% trans "Configuration du site" %}</span>
+    </a>
+</div>
+
+{{ block.super }}
+{% endblock %}

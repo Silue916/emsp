@@ -1,0 +1,71 @@
+{% extends 'accueil/base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Admission - Université" %}{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="page-header">
+    <div class="container">
+         <h1>{% trans "Admission" %}</h1>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                 <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans "Accueil" %}</a></li>
+                 <li class="breadcrumb-item active">{% trans "Admission" %}</li>
+            </ol>
+        </nav>
+    </div>
+</section>
+
+<!-- Admissions Intro -->
+<section class="admissions-intro py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h2>{% trans "Rejoignez notre communauté" %}</h2>
+                <p class="lead">{% trans "Découvrez comment rejoindre notre université et bénéficier d'une formation d'excellence." %}</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Requirements -->
+<section class="requirements-section py-5">
+    <div class="container">
+        <div class="row">
+            {% for req in requirements %}
+            <div class="col-lg-4 mb-4">
+                <div class="requirement-card">
+                    <h3>{{ req.get_degree_type_display }}</h3>
+                    <h4>{{ req.title }}</h4>
+                    <p>{{ req.content|truncatewords:30 }}</p>
+                    {% if req.deadline %}
+                     <p class="deadline"><i class="fas fa-calendar"></i> {% trans "Date limite:" %} {{ req.deadline|date:"d/m/Y" }}</p>
+                    {% endif %}
+                     <a href="{% url 'admissions_detail' req.slug %}" class="btn btn-primary">{% trans "Voir les détails" %}</a>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center">
+                 <p>{% trans "Les conditions d'admission seront bientôt disponibles." %}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="admissions-cta py-5 bg-light">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-8">
+                <h3>{% trans "Vous avez des questions ?" %}</h3>
+                <p>{% trans "Contactez notre service admission pour plus d'informations." %}</p>
+            </div>
+            <div class="col-lg-4 text-lg-end">
+                 <a href="{% url 'contact' %}" class="btn btn-primary">{% trans "Contactez-nous" %}</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

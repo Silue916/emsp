@@ -1,0 +1,169 @@
+{% extends 'accueil/base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Médiathèque - Photos, Vidéos, Publications | EMSP" %}{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="page-header">
+    <div class="container">
+         <h1>{% trans "Médiathèque" %}</h1>
+         <p class="lead">{% trans "Découvrez notre bibliothèque multimedia : photos, vidéos, publications" %}</p>
+    </div>
+</section>
+
+<!-- Content -->
+<section class="py-5">
+    <div class="container">
+        <!-- Gallery Categories -->
+        <div class="row mb-5">
+            <div class="col-12 text-center mb-4">
+                <ul class="nav nav-pills justify-content-center" id="mediaTab" role="tablist">
+                    <li class="nav-item">
+                        <button class="nav-link active" id="photos-tab" data-bs-toggle="tab" data-bs-target="#photos" type="button">
+                             <i class="fas fa-images me-2"></i>{% trans "Photos" %}
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link" id="videos-tab" data-bs-toggle="tab" data-bs-target="#videos" type="button">
+                             <i class="fas fa-video me-2"></i>{% trans "Vidéos" %}
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link" id="publications-tab" data-bs-toggle="tab" data-bs-target="#publications-tab" type="button">
+                             <i class="fas fa-book me-2"></i>{% trans "Publications" %}
+                        </button>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="tab-content" id="mediaTabContent">
+                <div class="tab-pane fade show active" id="photos">
+                    <div class="row g-4">
+                        <div class="col-md-4 col-lg-3">
+                            <div class="card border-0 shadow-sm">
+                                <img src="https://images.unsplash.com/photo-1562774053-701939374585?w=400" alt="Campus EMSP" class="card-img-top" style="height: 200px; object-fit: cover;">
+                                <div class="card-body">
+                                     <h6>{% trans "Vue principale du campus" %}</h6>
+                                    <p class="text-muted small mb-0">Janvier 2024</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-lg-3">
+                            <div class="card border-0 shadow-sm">
+                                <img src="https://images.unsplash.com/photo-1523050854058-8df69110f8ed?w=400" alt="Étudiants" class="card-img-top" style="height: 200px; object-fit: cover;">
+                                <div class="card-body">
+                                     <h6>{% trans "Cérémonie de remise des diplômes" %}</h6>
+                                    <p class="text-muted small mb-0">Décembre 2023</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-lg-3">
+                            <div class="card border-0 shadow-sm">
+                                <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=400" alt="Cours" class="card-img-top" style="height: 200px; object-fit: cover;">
+                                <div class="card-body">
+                                     <h6>{% trans "Salle de cours" %}</h6>
+                                    <p class="text-muted small mb-0">Novembre 2023</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-lg-3">
+                            <div class="card border-0 shadow-sm">
+                                <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c2?w=400" alt="Bibliothèque" class="card-img-top" style="height: 200px; object-fit: cover;">
+                                <div class="card-body">
+                                     <h6>{% trans "Bibliothèque" %}</h6>
+                                    <p class="text-muted small mb-0">Octobre 2023</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tab-pane fade" id="videos">
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <div class="card border-0 shadow-sm">
+                                <div class="ratio ratio-16x9">
+                                    <img src="https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?w=400" alt="Video placeholder">
+                                </div>
+                                <div class="card-body">
+                                    <h6>Présentation de l'EMSP</h6>
+                                    <p class="text-muted small">Vidéo de présentation de l'école</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card border-0 shadow-sm">
+                                <div class="ratio ratio-16x9">
+                                    <img src="https://images.unsplash.com/photo-1516321318422-f06f02d56b88?w=400" alt="Video placeholder">
+                                </div>
+                                <div class="card-body">
+                                    <h6>Interview du Directeur Général</h6>
+                                    <p class="text-muted small">À l'occasion de la rentrée 2024</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tab-pane fade" id="publications-tab">
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <div class="card border-0 shadow-sm">
+                                <div class="card-body">
+                                    <h5><i class="fas fa-file-pdf text-danger me-2"></i>Rapport annuel 2023</h5>
+                                    <p class="text-muted">Résumé des activités et réalisations de l'année</p>
+                                    <button class="btn btn-outline-primary btn-sm"><i class="fas fa-download me-2"></i>Télécharger</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card border-0 shadow-sm">
+                                <div class="card-body">
+                                    <h5><i class="fas fa-file-pdf text-danger me-2"></i>Brochure FS MENUM 2024</h5>
+                                    <p class="text-muted">Présentation de la formation FS MENUM</p>
+                                    <button class="btn btn-outline-primary btn-sm"><i class="fas fa-download me-2"></i>Télécharger</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Events Gallery -->
+        <div class="row mt-5">
+            <div class="col-12">
+                <h3 class="mb-4"><i class="fas fa-calendar-alt me-2 text-primary"></i>Événements</h3>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card border-0 shadow-sm">
+                    <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=400" alt="Journée portes ouvertes" class="card-img-top" style="height: 200px; object-fit: cover;">
+                    <div class="card-body">
+                        <h6>Journée Portes Ouvertes 2024</h6>
+                        <p class="text-muted small">Mars 2024</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card border-0 shadow-sm">
+                    <img src="https://images.unsplash.com/photo-1505373877841-8d25f7d46678?w=400" alt="Forum entrepreneurship" class="card-img-top" style="height: 200px; object-fit: cover;">
+                    <div class="card-body">
+                        <h6>Forum Entrepreneurship</h6>
+                        <p class="text-muted small">Mai 2024</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card border-0 shadow-sm">
+                    <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db044?w=400" alt="Remise diplômes" class="card-img-top" style="height: 200px; object-fit: cover;">
+                    <div class="card-body">
+                        <h6>Cérémonie de Remise des Diplômes</h6>
+                        <p class="text-muted small">Décembre 2024</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

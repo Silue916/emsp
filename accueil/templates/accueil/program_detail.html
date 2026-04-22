@@ -1,0 +1,85 @@
+{% extends 'accueil/base.html' %}
+
+{% block title %}{{ program.name }} - Université{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="page-header">
+    <div class="container">
+        <h1>{{ program.name }}</h1>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'home' %}">Accueil</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'programs' %}">Programmes</a></li>
+                <li class="breadcrumb-item active">{{ program.name }}</li>
+            </ol>
+        </nav>
+    </div>
+</section>
+
+<!-- Program Detail -->
+<section class="program-detail py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="program-info">
+                    <span class="badge bg-primary">{{ program.get_degree_type_display }}</span>
+                    <h2 class="mt-3">Description</h2>
+                    <p>{{ program.description }}</p>
+                    
+                    {% if courses %}
+                    <h2 class="mt-4">Programme pédagogique</h2>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Code</th>
+                                    <th>Cours</th>
+                                    <th>Crédits</th>
+                                    <th>Semestre</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for course in courses %}
+                                <tr>
+                                    <td>{{ course.code }}</td>
+                                    <td>{{ course.name }}</td>
+                                    <td>{{ course.credits }}</td>
+                                    <td>{{ course.semester }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div class="col-lg-4">
+                <div class="program-sidebar">
+                    <div class="sidebar-card">
+                        <h4>Informations</h4>
+                        <ul>
+                            <li><strong>Faculté:</strong> {{ program.department.faculty.name }}</li>
+                            <li><strong>Département:</strong> {{ program.department.name }}</li>
+                            {% if program.duration %}
+                            <li><strong>Durée:</strong> {{ program.duration }}</li>
+                            {% endif %}
+                            {% if program.credits %}
+                            <li><strong>CréditsECTS:</strong> {{ program.credits }}</li>
+                            {% endif %}
+                            {% if program.tuition_fee %}
+                            <li><strong>Frais de scolarité:</strong> {{ program.tuition_fee }}€/an</li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                    
+                    <div class="sidebar-card">
+                        <a href="{% url 'admissions' %}" class="btn btn-primary w-100 mb-3">Postuler à ce programme</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

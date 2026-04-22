@@ -1,0 +1,28 @@
+{% extends "accueil/base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Page introuvable - EMSP" %}{% endblock %}
+
+{% block content %}
+<section class="py-5" style="min-height: 60vh;">
+    <div class="container text-center">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="display-1 fw-bold text-primary" style="font-size: 8rem;">404</div>
+                <h1 class="mb-3">{% trans "Page introuvable" %}</h1>
+                <p class="lead text-muted mb-4">
+                    {% trans "La page que vous recherchez n'existe pas ou a été déplacée." %}
+                </p>
+                <div class="d-flex flex-wrap gap-3 justify-content-center">
+                    <a href="{% url 'home' %}" class="btn btn-primary">
+                        <i class="fas fa-home me-2"></i>{% trans "Retour à l'accueil" %}
+                    </a>
+                    <a href="{% url 'contact' %}" class="btn btn-outline-primary">
+                        <i class="fas fa-envelope me-2"></i>{% trans "Nous contacter" %}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

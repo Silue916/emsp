@@ -1,0 +1,81 @@
+{% extends 'accueil/base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Plan du site - EMSP" %}{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div class="container">
+        <h1>{{ page_title|default:_("Plan du site") }}</h1>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans "Accueil" %}</a></li>
+                <li class="breadcrumb-item active">{% trans "Plan du site" %}</li>
+            </ol>
+        </nav>
+    </div>
+</section>
+
+<section class="py-5">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-md-4">
+                <h4 class="border-bottom pb-2">{% trans "L'Institution" %}</h4>
+                <ul class="list-unstyled">
+                    <li><a href="{% url 'about' %}">{% trans "À propos" %}</a></li>
+                    <li><a href="{% url 'mot_directeur' %}">{% trans "Mot du Directeur" %}</a></li>
+                    <li><a href="{% url 'perspectives' %}">{% trans "Perspectives" %}</a></li>
+                    <li><a href="{% url 'psd_2022_2025' %}">{% trans "PSD 2022-2025" %}</a></li>
+                    <li><a href="{% url 'partners' %}">{% trans "Partenaires" %}</a></li>
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <h4 class="border-bottom pb-2">{% trans "Formations" %}</h4>
+                <ul class="list-unstyled">
+                    <li><a href="{% url 'faculties' %}">{% trans "Facultés" %}</a></li>
+                    <li><a href="{% url 'programs' %}">{% trans "Programmes" %}</a></li>
+                    <li><a href="{% url 'fs_menum' %}">FS MENUM</a></li>
+                    <li><a href="{% url 'corps_enseignant' %}">{% trans "Corps Enseignant" %}</a></li>
+                    <li><a href="{% url 'admissions' %}">{% trans "Admissions" %}</a></li>
+                    <li><a href="{% url 'resultats_academiques' %}">{% trans "Résultats Académiques" %}</a></li>
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <h4 class="border-bottom pb-2">{% trans "Recherche" %}</h4>
+                <ul class="list-unstyled">
+                    <li><a href="{% url 'research' %}">{% trans "Laboratoires" %}</a></li>
+                    <li><a href="{% url 'publications' %}">{% trans "Publications" %}</a></li>
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <h4 class="border-bottom pb-2">{% trans "Vie Étudiante" %}</h4>
+                <ul class="list-unstyled">
+                    <li><a href="{% url 'vie_campus' %}">{% trans "Vie Campus" %}</a></li>
+                    <li><a href="{% url 'campus' %}">{% trans "Campus" %}</a></li>
+                    <li><a href="{% url 'scolarite' %}">{% trans "Scolarité" %}</a></li>
+                    <li><a href="{% url 'stages' %}">{% trans "Stages" %}</a></li>
+                    <li><a href="{% url 'bibliotheque' %}">{% trans "Bibliothèque" %}</a></li>
+                    <li><a href="{% url 'vie_associative' %}">{% trans "Vie Associative" %}</a></li>
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <h4 class="border-bottom pb-2">{% trans "Actualités" %}</h4>
+                <ul class="list-unstyled">
+                    <li><a href="{% url 'news' %}">{% trans "News & Blog" %}</a></li>
+                    <li><a href="{% url 'events' %}">{% trans "Événements" %}</a></li>
+                    <li><a href="{% url 'mediatheque' %}">{% trans "Médiathèque" %}</a></li>
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <h4 class="border-bottom pb-2">{% trans "Informations" %}</h4>
+                <ul class="list-unstyled">
+                    <li><a href="{% url 'faq' %}">{% trans "FAQ" %}</a></li>
+                    <li><a href="{% url 'contact' %}">{% trans "Contact" %}</a></li>
+                    <li><a href="{% url 'mentions_legales' %}">{% trans "Mentions légales" %}</a></li>
+                    <li><a href="{% url 'politique_confidentialite' %}">{% trans "Politique de confidentialité" %}</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

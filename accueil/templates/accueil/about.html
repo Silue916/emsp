@@ -1,0 +1,115 @@
+{% extends 'accueil/base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "À propos - Université" %}{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="page-header">
+    <div class="container">
+         <h1>{% trans "À propos de nous" %}</h1>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                 <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans "Accueil" %}</a></li>
+                 <li class="breadcrumb-item active">{% trans "À propos" %}</li>
+            </ol>
+        </nav>
+    </div>
+</section>
+
+<!-- About Section -->
+<section class="about-section py-5">
+    <div class="container">
+        {% if about_content %}
+        <div class="row mb-5">
+            <div class="col-lg-8 mx-auto">
+                <h2>{{ about_content.title }}</h2>
+                {{ about_content.content|linebreaks }}
+            </div>
+        </div>
+        {% else %}
+        <div class="row mb-5">
+            <div class="col-lg-8 mx-auto">
+                <h2>{% trans "Notre Université" %}</h2>
+                <p>{% trans "Fondée il y a plus d'un siècle, notre université s'engage à offrir une formation de qualité et à contribuer à l'avancement des connaissances." %}</p>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- History -->
+{% if history_content %}
+<section class="history-section py-5 bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <h2>{{ history_content.title }}</h2>
+                {{ history_content.content|linebreaks }}
+            </div>
+            {% if history_content.image %}
+            <div class="col-lg-6">
+                <img src="{{ history_content.image.url }}" alt="Histoire" class="img-fluid rounded">
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Governance -->
+{% if governance_content %}
+<section class="governance-section py-5">
+    <div class="container">
+        <h2>{{ governance_content.title }}</h2>
+        {{ governance_content.content|linebreaks }}
+    </div>
+</section>
+{% endif %}
+
+<!-- Accreditation -->
+{% if accreditation_content %}
+<section class="accreditation-section py-5 bg-light">
+    <div class="container">
+        <h2>{{ accreditation_content.title }}</h2>
+        {{ accreditation_content.content|linebreaks }}
+    </div>
+</section>
+{% endif %}
+
+<!-- Stats -->
+<section class="about-stats py-5">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-md-3">
+                <div class="stat-item">
+                    <i class="fas fa-calendar-alt"></i>
+                    <h3>1900</h3>
+                     <p>{% trans "Année de fondation" %}</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-item">
+                    <i class="fas fa-award"></i>
+                    <h3>15</h3>
+                     <p>{% trans "Accréditations" %}</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-item">
+                    <i class="fas fa-handshake"></i>
+                    <h3>100+</h3>
+                     <p>{% trans "Partenaires" %}</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-item">
+                    <i class="fas fa-globe"></i>
+                    <h3>50+</h3>
+                     <p>{% trans "Pays représentés" %}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

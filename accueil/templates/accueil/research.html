@@ -1,0 +1,75 @@
+{% extends 'accueil/base.html' %}
+
+{% block title %}Recherche - Université{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="page-header">
+    <div class="container">
+        <h1>Recherche & Innovation</h1>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'home' %}">Accueil</a></li>
+                <li class="breadcrumb-item active">Recherche</li>
+            </ol>
+        </nav>
+    </div>
+</section>
+
+<!-- Research Intro -->
+<section class="research-intro py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h2>Excellence en recherche</h2>
+                <p class="lead">Nos laboratoires de recherche contribuent aux avancées scientifiques majeures et à l'innovation.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Labs -->
+<section class="labs-section py-5">
+    <div class="container">
+        <h2>Laboratoires de recherche</h2>
+        <div class="row">
+            {% for lab in labs %}
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="lab-card">
+                    {% if lab.image %}
+                    <img src="{{ lab.image.url }}" alt="{{ lab.name }}" class="img-fluid">
+                    {% endif %}
+                    <h3>{{ lab.name }}</h3>
+                    <p>{{ lab.description|truncatewords:25 }}</p>
+                    {% if lab.director %}
+                    <p class="director"><strong>Directeur:</strong> {{ lab.director }}</p>
+                    {% endif %}
+                    <div class="lab-meta">
+                        {% if lab.established_year %}
+                        <span><i class="fas fa-calendar"></i> {{ lab.established_year }}</span>
+                        {% endif %}
+                        {% if lab.website %}
+                        <a href="{{ lab.website }}" target="_blank"><i class="fas fa-globe"></i> Site web</a>
+                        {% endif %}
+                    </div>
+                    <a href="{% url 'lab_detail' lab.slug %}" class="btn btn-outline-primary">En savoir plus</a>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center">
+                <p>Aucun laboratoire de recherche enregistré.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Publications Link -->
+<section class="publications-cta py-5 bg-light">
+    <div class="container text-center">
+        <h2>Publications scientifiques</h2>
+        <p>Découvrez les dernières publications de nos chercheurs</p>
+        <a href="{% url 'publications' %}" class="btn btn-primary">Voir les publications</a>
+    </div>
+</section>
+{% endblock %}

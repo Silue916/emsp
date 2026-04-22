@@ -1,0 +1,107 @@
+{% extends 'accueil/base.html' %}
+
+{% block title %}Recherche - Université{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="page-header">
+    <div class="container">
+        <h1>Résultats de recherche</h1>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'home' %}">Accueil</a></li>
+                <li class="breadcrumb-item active">Recherche</li>
+            </ol>
+        </nav>
+    </div>
+</section>
+
+<!-- Search Section -->
+<section class="search-section py-5">
+    <div class="container">
+        <form method="get" class="search-form mb-4">
+            <div class="input-group">
+                <input type="text" name="q" class="form-control form-control-lg" placeholder="Rechercher..." value="{{ query }}">
+                <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i> Rechercher</button>
+            </div>
+        </form>
+        
+        {% if query %}
+        <p class="search-results-count">Résultats pour "{{ query }}"</p>
+        
+        {% if news_results or program_results or faculty_results or event_results %}
+        <div class="results-container">
+            <!-- News Results -->
+            {% if news_results %}
+            <div class="result-section mb-4">
+                <h3>Actualités <span class="count">({{ news_results|length }})</span></h3>
+                <ul class="result-list">
+                    {% for item in news_results %}
+                    <li>
+                        <a href="{% url 'news_detail' item.slug %}">{{ item.title }}</a>
+                        <span class="result-date">{{ item.published_at|date:"d/m/Y" }}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+            
+            <!-- Programs Results -->
+            {% if program_results %}
+            <div class="result-section mb-4">
+                <h3>Programmes <span class="count">({{ program_results|length }})</span></h3>
+                <ul class="result-list">
+                    {% for item in program_results %}
+                    <li>
+                        <a href="{% url 'program_detail' item.slug %}">{{ item.name }}</a>
+                        <span class="result-type">{{ item.get_degree_type_display }}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+            
+            <!-- Faculty Results -->
+            {% if faculty_results %}
+            <div class="result-section mb-4">
+                <h3>Facultés <span class="count">({{ faculty_results|length }})</span></h3>
+                <ul class="result-list">
+                    {% for item in faculty_results %}
+                    <li>
+                        <a href="{% url 'faculty_detail' item.slug %}">{{ item.name }}</a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+            
+            <!-- Events Results -->
+            {% if event_results %}
+            <div class="result-section mb-4">
+                <h3>Événements <span class="count">({{ event_results|length }})</span></h3>
+                <ul class="result-list">
+                    {% for item in event_results %}
+                    <li>
+                        <a href="{% url 'event_detail' item.slug %}">{{ item.title }}</a>
+                        <span class="result-date">{{ item.start_date|date:"d/m/Y" }}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+        </div>
+        {% else %}
+        <div class="no-results text-center py-5">
+            <i class="fas fa-search fa-3x mb-3"></i>
+            <p>Aucun résultat trouvé pour "{{ query }}"</p>
+        </div>
+        {% endif %}
+        {% else %}
+        <div class="text-center py-5">
+            <i class="fas fa-search fa-3x mb-3"></i>
+            <p>Entrez un terme de recherche</p>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

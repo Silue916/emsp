@@ -1,0 +1,40 @@
+{% extends 'accueil/base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Politique de confidentialité - EMSP" %}{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div class="container">
+        <h1>{{ page_title|default:_("Politique de confidentialité") }}</h1>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans "Accueil" %}</a></li>
+                <li class="breadcrumb-item active">{% trans "Politique de confidentialité" %}</li>
+            </ol>
+        </nav>
+    </div>
+</section>
+
+<section class="py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <h2>{% trans "Collecte des données" %}</h2>
+                <p>{% trans "L'EMSP collecte uniquement les données nécessaires au traitement de vos demandes (nom, email, téléphone, message) via le formulaire de contact." %}</p>
+
+                <h2 class="mt-4">{% trans "Utilisation des données" %}</h2>
+                <p>{% trans "Les données recueillies sont utilisées exclusivement pour répondre aux demandes et informer sur les activités de l'école. Elles ne sont en aucun cas cédées à des tiers sans consentement." %}</p>
+
+                <h2 class="mt-4">{% trans "Cookies" %}</h2>
+                <p>{% trans "Le site utilise des cookies techniques nécessaires au bon fonctionnement (session, préférences de langue). Aucun cookie publicitaire n'est déposé." %}</p>
+
+                <h2 class="mt-4">{% trans "Vos droits" %}</h2>
+                <p>{% trans "Conformément à la réglementation applicable, vous disposez d'un droit d'accès, de rectification et de suppression de vos données personnelles. Pour l'exercer, contactez-nous à :" %}
+                    <a href="mailto:{{ CONTACT_EMAIL|default:'contact@emsp.int' }}">{{ CONTACT_EMAIL|default:"contact@emsp.int" }}</a>.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

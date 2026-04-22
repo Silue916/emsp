@@ -1,0 +1,71 @@
+{% extends 'accueil/base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Vie Campus - Université" %}{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="page-header">
+    <div class="container">
+         <h1>{% trans "Vie sur le campus" %}</h1>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                 <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans "Accueil" %}</a></li>
+                 <li class="breadcrumb-item active">{% trans "Campus" %}</li>
+            </ol>
+        </nav>
+    </div>
+</section>
+
+<!-- Campus Intro -->
+<section class="campus-intro py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h2>{% trans "Un campus adapté aux étudiants" %}</h2>
+                <p class="lead">{% trans "Découvrez toutes les infrastructures et activités disponibles sur notre campus." %}</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Facilities by Category -->
+<section class="facilities-section py-5">
+    <div class="container">
+        {% for category_name, features in features_by_category.items %}
+        <div class="facility-category mb-5">
+            <h2>{{ category_name }}</h2>
+            <div class="row">
+                {% for feature in features %}
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="facility-card">
+                        {% if feature.image %}
+                        <img src="{{ feature.image.url }}" alt="{{ feature.name }}" class="facility-img">
+                        {% endif %}
+                        <h3>{{ feature.name }}</h3>
+                        <p>{{ feature.description|truncatewords:20 }}</p>
+                        {% if feature.location %}
+                        <p class="location"><i class="fas fa-map-marker-alt"></i> {{ feature.location }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12 text-center">
+             <p>{% trans "Les infrastructures seront bientôt détaillées." %}</p>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- Map Section -->
+<section class="map-section py-5 bg-light">
+    <div class="container text-center">
+         <h2>{% trans "Plan du campus" %}</h2>
+         <p>{% trans "Téléchargez le plan du campus pour vous repérer" %}</p>
+         <a href="#" class="btn btn-primary"><i class="fas fa-download"></i> {% trans "Télécharger le plan" %}</a>
+    </div>
+</section>
+{% endblock %}

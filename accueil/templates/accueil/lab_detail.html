@@ -1,0 +1,75 @@
+{% extends 'accueil/base.html' %}
+
+{% block title %}{{ lab.name }} - Université{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="page-header">
+    <div class="container">
+        <h1>{{ lab.name }}</h1>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'home' %}">Accueil</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'research' %}">Recherche</a></li>
+                <li class="breadcrumb-item active">{{ lab.name }}</li>
+            </ol>
+        </nav>
+    </div>
+</section>
+
+<!-- Lab Detail -->
+<section class="lab-detail py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="lab-info">
+                    {% if lab.image %}
+                    <img src="{{ lab.image.url }}" alt="{{ lab.name }}" class="img-fluid mb-4">
+                    {% endif %}
+                    
+                    <h2>À propos du laboratoire</h2>
+                    <p>{{ lab.description }}</p>
+                    
+                    {% if publications %}
+                    <h2 class="mt-5">Publications récentes</h2>
+                    <div class="publications-list">
+                        {% for pub in publications %}
+                        <div class="publication-item">
+                            <h4>{{ pub.title }}</h4>
+                            <p class="authors">{{ pub.authors }}</p>
+                            {% if pub.journal %}
+                            <p class="journal"><em>{{ pub.journal }}</em>, {{ pub.year }}</p>
+                            {% endif %}
+                            {% if pub.doi %}
+                            <a href="https://doi.org/{{ pub.doi }}" target="_blank" class="btn btn-sm btn-outline-primary">DOI</a>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div class="col-lg-4">
+                <div class="lab-sidebar">
+                    <div class="sidebar-card">
+                        <h4>Informations</h4>
+                        {% if lab.director %}
+                        <p><strong>Directeur:</strong> {{ lab.director }}</p>
+                        {% endif %}
+                        {% if lab.established_year %}
+                        <p><strong>Créé en:</strong> {{ lab.established_year }}</p>
+                        {% endif %}
+                        {% if lab.email %}
+                        <p><strong>Email:</strong> <a href="mailto:{{ lab.email }}">{{ lab.email }}</a></p>
+                        {% endif %}
+                        {% if lab.website %}
+                        <p><strong>Site web:</strong> <a href="{{ lab.website }}" target="_blank">Visiter</a></p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,80 @@
+{% extends 'accueil/base.html' %}
+
+{% block title %}Publications - Université{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="page-header">
+    <div class="container">
+        <h1>Publications scientifiques</h1>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'home' %}">Accueil</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'research' %}">Recherche</a></li>
+                <li class="breadcrumb-item active">Publications</li>
+            </ol>
+        </nav>
+    </div>
+</section>
+
+<!-- Publications Section -->
+<section class="publications-section py-5">
+    <div class="container">
+        <!-- Filters -->
+        <div class="filters mb-4">
+            <form method="get" class="row g-3">
+                <div class="col-md-4">
+                    <label class="form-label">Laboratoire</label>
+                    <select name="lab" class="form-select">
+                        <option value="">Tous les laboratoires</option>
+                        {% for lab in labs %}
+                        <option value="{{ lab.slug }}" {% if lab_filter == lab.slug %}selected{% endif %}>{{ lab.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Année</label>
+                    <select name="year" class="form-select">
+                        <option value="">Toutes les années</option>
+                        {% for year in years %}
+                        <option value="{{ year }}" {% if year_filter == year|stringformat:"s" %}selected{% endif %}>{{ year }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-4 d-flex align-items-end">
+                    <button type="submit" class="btn btn-primary w-100">Filtrer</button>
+                </div>
+            </form>
+        </div>
+        
+        <!-- Publications List -->
+        <div class="publications-list">
+            {% for pub in publications %}
+            <div class="publication-card mb-4">
+                <h3>{{ pub.title }}</h3>
+                <p class="authors">{{ pub.authors }}</p>
+                {% if pub.abstract %}
+                <p class="abstract">{{ pub.abstract|truncatewords:50 }}</p>
+                {% endif %}
+                <div class="pub-meta">
+                    {% if pub.journal %}
+                    <span><em>{{ pub.journal }}</em></span>
+                    {% endif %}
+                    <span>{{ pub.year }}</span>
+                    {% if pub.lab %}
+                    <span>{{ pub.lab.name }}</span>
+                    {% endif %}
+                    {% if pub.doi %}
+                    <a href="https://doi.org/{{ pub.doi }}" target="_blank" class="btn btn-sm btn-outline-primary">DOI</a>
+                    {% endif %}
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center">
+                <p>Aucune publication trouvée.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

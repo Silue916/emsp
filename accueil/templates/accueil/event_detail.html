@@ -1,0 +1,79 @@
+{% extends 'accueil/base.html' %}
+
+{% block title %}{{ event.title }} - Université{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="page-header">
+    <div class="container">
+        <h1>{{ event.title }}</h1>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'home' %}">Accueil</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'events' %}">Événements</a></li>
+                <li class="breadcrumb-item active">{{ event.title|truncatewords:3 }}</li>
+            </ol>
+        </nav>
+    </div>
+</section>
+
+<!-- Event Detail -->
+<section class="event-detail py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <article class="event-article">
+                    {% if event.image %}
+                    <img src="{{ event.image.url }}" alt="{{ event.title }}" class="img-fluid mb-4">
+                    {% endif %}
+                    
+                    <div class="event-info-box mb-4">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p><i class="fas fa-calendar"></i> <strong>Date:</strong> {{ event.start_date|date:"d F Y" }}</p>
+                            </div>
+                            <div class="col-md-6">
+                                <p><i class="fas fa-clock"></i> <strong>Heure:</strong> {{ event.start_date|time:"H:i" }}</p>
+                            </div>
+                            <div class="col-md-6">
+                                <p><i class="fas fa-map-marker-alt"></i> <strong>Lieu:</strong> {{ event.location }}</p>
+                            </div>
+                            {% if event.end_date %}
+                            <div class="col-md-6">
+                                <p><i class="fas fa-calendar-check"></i> <strong>Fin:</strong> {{ event.end_date|date:"d F Y H:i" }}</p>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="event-body">
+                        <h2>Description</h2>
+                        {{ event.description|linebreaks }}
+                    </div>
+                    
+                    <div class="share-buttons mt-4">
+                        <p>Partager:</p>
+                        <a href="#" class="btn btn-sm btn-primary"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="btn btn-sm btn-info"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="btn btn-sm btn-primary"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </article>
+            </div>
+            
+            <div class="col-lg-4">
+                <div class="event-sidebar">
+                    <div class="sidebar-card">
+                        <h4>Cet événement vous intéresse ?</h4>
+                        <a href="{% url 'contact' %}" class="btn btn-primary w-100">Contactez-nous</a>
+                    </div>
+                    
+                    <div class="sidebar-card mt-3">
+                        <h4>Tous les événements</h4>
+                        <a href="{% url 'events' %}" class="btn btn-outline-primary w-100">Voir le calendrier</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,61 @@
+{% extends 'accueil/base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Événements - Université" %}{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="page-header">
+    <div class="container">
+         <h1>{% trans "Événements" %}</h1>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                 <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans "Accueil" %}</a></li>
+                 <li class="breadcrumb-item active">{% trans "Événements" %}</li>
+            </ol>
+        </nav>
+    </div>
+</section>
+
+<!-- Events Section -->
+<section class="events-section py-5">
+    <div class="container">
+        <!-- Tabs -->
+        <ul class="nav nav-tabs mb-4">
+            <li class="nav-item">
+                 <a class="nav-link {% if not upcoming or upcoming == 'future' %}active{% endif %}" href="{% url 'events' %}">{% trans "À venir" %}</a>
+            </li>
+            <li class="nav-item">
+                 <a class="nav-link {% if upcoming == 'past' %}active{% endif %}" href="{% url 'events' %}?upcoming=past">{% trans "Passés" %}</a>
+            </li>
+        </ul>
+        
+        <!-- Events List -->
+        <div class="row">
+            {% for event in events %}
+            <div class="col-lg-6 mb-4">
+                <div class="event-item">
+                    <div class="event-date-box">
+                        <span class="day">{{ event.start_date|date:"d" }}</span>
+                        <span class="month">{{ event.start_date|date:"M" }}</span>
+                        <span class="year">{{ event.start_date|date:"Y" }}</span>
+                    </div>
+                    <div class="event-details">
+                        <h3><a href="{% url 'event_detail' event.slug %}">{{ event.title }}</a></h3>
+                        <p class="event-location"><i class="fas fa-map-marker-alt"></i> {{ event.location }}</p>
+                        <p>{{ event.description|truncatewords:30 }}</p>
+                        {% if event.end_date %}
+                        <p class="event-end"><small>{% trans "Fin:" %} {{ event.end_date|date:"d M Y" }}</small></p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center">
+                 <p>{% trans "Aucun événement trouvé." %}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends 'accueil/base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Mentions légales - EMSP" %}{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div class="container">
+        <h1>{{ page_title|default:_("Mentions légales") }}</h1>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans "Accueil" %}</a></li>
+                <li class="breadcrumb-item active">{% trans "Mentions légales" %}</li>
+            </ol>
+        </nav>
+    </div>
+</section>
+
+<section class="py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <h2>{% trans "Éditeur du site" %}</h2>
+                <p>
+                    <strong>{{ SITE_NAME|default:"EMSP" }}</strong> — {{ SITE_TAGLINE|default:"École Multinationale des Postes" }}<br>
+                    {{ CONTACT_ADDRESS|default:"Abidjan, Côte d'Ivoire" }}<br>
+                    {% trans "Téléphone" %} : {{ CONTACT_PHONE|default:"+225 27 21 21 45 60" }}<br>
+                    {% trans "Email" %} : <a href="mailto:{{ CONTACT_EMAIL|default:'contact@emsp.int' }}">{{ CONTACT_EMAIL|default:"contact@emsp.int" }}</a>
+                </p>
+
+                <h2 class="mt-4">{% trans "Directeur de la publication" %}</h2>
+                <p>{% trans "Le Directeur Général de l'EMSP." %}</p>
+
+                <h2 class="mt-4">{% trans "Hébergement" %}</h2>
+                <p>{% trans "Le site est hébergé par un prestataire technique partenaire de l'EMSP." %}</p>
+
+                <h2 class="mt-4">{% trans "Propriété intellectuelle" %}</h2>
+                <p>{% trans "L'ensemble du contenu de ce site (textes, images, vidéos, logos) est la propriété exclusive de l'EMSP, sauf mention contraire. Toute reproduction sans autorisation écrite est interdite." %}</p>
+
+                <h2 class="mt-4">{% trans "Responsabilité" %}</h2>
+                <p>{% trans "L'EMSP s'efforce d'assurer l'exactitude des informations publiées, mais ne peut être tenue responsable d'erreurs ou d'omissions." %}</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

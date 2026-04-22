@@ -1,0 +1,173 @@
+{% extends 'accueil/base.html' %}
+
+{% block title %}FS MENUM - Formations Supérieures en Management de l'Économie Numérique | EMSP{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="page-header">
+    <div class="container">
+        <h1>FS MENUM</h1>
+        <p class="lead">Formations Supérieures en Management de l'Économie Numérique</p>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'home' %}">Accueil</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'programs' %}">Formations</a></li>
+                <li class="breadcrumb-item active">FS MENUM</li>
+            </ol>
+        </nav>
+    </div>
+</section>
+
+<!-- Content Section -->
+<section class="py-5">
+    <div class="container">
+        <!-- Introduction -->
+        <div class="row mb-5">
+            <div class="col-lg-8">
+                <h2>À propos de la FS MENUM</h2>
+                <p class="lead">La Formation Supérieure en Management de l'Économie Numérique (FS MENUM) est un programme de excellence conçu pour former les cadres du secteur postal et numérique.</p>
+                <p>Cette formation permet aux étudiants d'acquérir des compétences avancées en management digital, en transformation numérique des organizations, et en innovation technologique appliquée au secteur postal.</p>
+            </div>
+            <div class="col-lg-4">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body">
+                        <h5><i class="fas fa-info-circle me-2 text-primary"></i>Informations</h5>
+                        <ul class="list-unstyled">
+                            <li class="mb-2"><strong>Durée :</strong> 2 ans</li>
+                            <li class="mb-2"><strong>Crédits :</strong> 120 ECTS</li>
+                            <li class="mb-2"><strong>Langue :</strong> Français</li>
+                            <li class="mb-2"><strong>Diplôme :</strong> Master</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Objectifs -->
+        <div class="row mb-5">
+            <div class="col-12">
+                <h3><i class="fas fa-bullseye me-2 text-primary"></i>Objectifs de la formation</h3>
+                <div class="row mt-4">
+                    <div class="col-md-6 mb-3">
+                        <div class="d-flex">
+                            <i class="fas fa-check-circle text-primary me-3 mt-1"></i>
+                            <div>
+                                <h5>Manager la transformation digitale</h5>
+                                <p>Conduire le changement numérique au sein des organizations</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="d-flex">
+                            <i class="fas fa-check-circle text-primary me-3 mt-1"></i>
+                            <div>
+                                <h5>Développer des stratégies numériques</h5>
+                                <p>Elaborer et mettre en œuvre des stratégies digitales</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="d-flex">
+                            <i class="fas fa-check-circle text-primary me-3 mt-1"></i>
+                            <div>
+                                <h5>Innover en matière de services</h5>
+                                <p>Créer des nouveaux services digitaux innovants</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="d-flex">
+                            <i class="fas fa-check-circle text-primary me-3 mt-1"></i>
+                            <div>
+                                <h5>Gérer les données</h5>
+                                <p>Exploiter et sécuriser les données de l'entreprise</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Programme -->
+        <div class="row mb-5">
+            <div class="col-12">
+                <h3><i class="fas fa-book me-2 text-primary"></i>Programme pédagogique</h3>
+                <div class="row mt-4">
+                    <div class="col-lg-6 mb-4">
+                        <div class="card border-0 shadow-sm h-100">
+                            <div class="card-header bg-primary text-white">
+                                <h5 class="mb-0">Année 1 - Semestre 1 & 2</h5>
+                            </div>
+                            <div class="card-body">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item"><i class="fas fa-bookmark me-2 text-muted"></i>Management Stratégique</li>
+                                    <li class="list-group-item"><i class="fas fa-bookmark me-2 text-muted"></i>Transformation Digitale</li>
+                                    <li class="list-group-item"><i class="fas fa-bookmark me-2 text-muted"></i>Économie Numérique</li>
+                                    <li class="list-group-item"><i class="fas fa-bookmark me-2 text-muted"></i>Systèmes d'Information</li>
+                                    <li class="list-group-item"><i class="fas fa-bookmark me-2 text-muted"></i>Marketing Digital</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 mb-4">
+                        <div class="card border-0 shadow-sm h-100">
+                            <div class="card-header bg-primary text-white">
+                                <h5 class="mb-0">Année 2 - Semestre 3 & 4</h5>
+                            </div>
+                            <div class="card-body">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item"><i class="fas fa-bookmark me-2 text-muted"></i>Innovation & Entrepreneurship</li>
+                                    <li class="list-group-item"><i class="fas fa-bookmark me-2 text-muted"></i>Gestion de Projet Digital</li>
+                                    <li class="list-group-item"><i class="fas fa-bookmark me-2 text-muted"></i>Cybersécurité</li>
+                                    <li class="list-group-item"><i class="fas fa-bookmark me-2 text-muted"></i>Intelligence Artificielle</li>
+                                    <li class="list-group-item"><i class="fas fa-bookmark me-2 text-muted"></i>Mémoire de fin d'études</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Débouchés -->
+        <div class="row mb-5">
+            <div class="col-12">
+                <h3><i class="fas fa-briefcase me-2 text-primary"></i>Débouchés professionnels</h3>
+                <div class="row mt-4">
+                    <div class="col-md-4 mb-3">
+                        <div class="card border-0 shadow-sm text-center p-4">
+                            <i class="fas fa-laptop fa-2x text-primary mb-3"></i>
+                            <h5>Directeur Digital</h5>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="card border-0 shadow-sm text-center p-4">
+                            <i class="fas fa-project-diagram fa-2x text-primary mb-3"></i>
+                            <h5>Chef de Projet IT</h5>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="card border-0 shadow-sm text-center p-4">
+                            <i class="fas fa-chart-line fa-2x text-primary mb-3"></i>
+                            <h5>Consultant Transformation</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CTA -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card bg-primary text-white p-5 text-center">
+                    <h3>Vous souhaitez candidater ?</h3>
+                    <p class="mb-4">Découvrez les conditions d'admission et postulez dès maintenant</p>
+                    <a href="{% url 'admissions' %}" class="btn btn-light btn-lg">
+                        <i class="fas fa-paper-plane me-2"></i>Voir les conditions d'admission
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

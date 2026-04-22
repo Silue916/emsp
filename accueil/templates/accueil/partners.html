@@ -1,0 +1,63 @@
+{% extends 'accueil/base.html' %}
+
+{% block title %}Partenaires - Université{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="page-header">
+    <div class="container">
+        <h1>Nos partenaires</h1>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'home' %}">Accueil</a></li>
+                <li class="breadcrumb-item active">Partenaires</li>
+            </ol>
+        </nav>
+    </div>
+</section>
+
+<!-- Partners Section -->
+<section class="partners-section py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h2>Collaboration internationale</h2>
+                <p class="lead">Notre université entretient des partenariats solides avec des institutions académiques et des entreprises de premier plan à travers le monde.</p>
+            </div>
+        </div>
+        
+        <div class="row mt-5">
+            {% for partner in partners %}
+            <div class="col-lg-3 col-md-4 col-6 mb-4">
+                <div class="partner-card">
+                    {% if partner.logo %}
+                    <img src="{{ partner.logo.url }}" alt="{{ partner.name }}" class="img-fluid">
+                    {% else %}
+                    <h4>{{ partner.name }}</h4>
+                    {% endif %}
+                    {% if partner.description %}
+                    <p class="partner-desc">{{ partner.description|truncatewords:10 }}</p>
+                    {% endif %}
+                    {% if partner.website %}
+                    <a href="{{ partner.website }}" target="_blank" class="btn btn-sm btn-outline-primary">Site web</a>
+                    {% endif %}
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center">
+                <p>Nos partenaires seront bientôt présentés.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Become Partner -->
+<section class="become-partner py-5 bg-light">
+    <div class="container text-center">
+        <h2>Devenir partenaire</h2>
+        <p>Intéressé par un partenariat avec notre université ? Contactez-nous.</p>
+        <a href="{% url 'contact' %}" class="btn btn-primary">Contactez-nous</a>
+    </div>
+</section>
+{% endblock %}

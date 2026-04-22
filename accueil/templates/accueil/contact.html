@@ -1,0 +1,109 @@
+{% extends 'accueil/base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Contact - EMSP" %}{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div class="container">
+        <h1>{% trans "Contactez-nous" %}</h1>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans "Accueil" %}</a></li>
+                <li class="breadcrumb-item active">{% trans "Contact" %}</li>
+            </ol>
+        </nav>
+    </div>
+</section>
+
+<section class="contact-section py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-5 mb-4">
+                <h2>{% trans "Nos coordonnées" %}</h2>
+                <div class="contact-info-block">
+                    <div class="contact-item d-flex align-items-start mb-4">
+                        <i class="fas fa-map-marker-alt fa-2x text-primary me-3"></i>
+                        <div>
+                            <h4>{% trans "Adresse" %}</h4>
+                            <p>{{ CONTACT_ADDRESS|default:"Abidjan, Côte d'Ivoire" }}</p>
+                        </div>
+                    </div>
+                    <div class="contact-item d-flex align-items-start mb-4">
+                        <i class="fas fa-phone fa-2x text-primary me-3"></i>
+                        <div>
+                            <h4>{% trans "Téléphone" %}</h4>
+                            <p>{{ CONTACT_PHONE|default:"+225 27 21 21 45 60" }}</p>
+                        </div>
+                    </div>
+                    <div class="contact-item d-flex align-items-start mb-4">
+                        <i class="fas fa-envelope fa-2x text-primary me-3"></i>
+                        <div>
+                            <h4>{% trans "Email" %}</h4>
+                            <p><a href="mailto:{{ CONTACT_EMAIL|default:'contact@emsp.int' }}">{{ CONTACT_EMAIL|default:"contact@emsp.int" }}</a></p>
+                        </div>
+                    </div>
+                    <div class="contact-item d-flex align-items-start mb-4">
+                        <i class="fas fa-clock fa-2x text-primary me-3"></i>
+                        <div>
+                            <h4>{% trans "Horaires d'ouverture" %}</h4>
+                            <p>{% trans "Lundi au vendredi : 8h - 17h" %}<br>{% trans "Samedi : 9h - 12h" %}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-7">
+                <h2>{% trans "Envoyez-nous un message" %}</h2>
+                <p class="text-muted mb-4">{% trans "Nous vous répondrons dans les meilleurs délais." %}</p>
+
+                <form method="post" class="contact-form" novalidate>
+                    {% csrf_token %}
+
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+                    {% endif %}
+
+                    {# Honeypot (hidden) #}
+                    <div style="position:absolute;left:-9999px;" aria-hidden="true">
+                        {{ form.website }}
+                    </div>
+
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="{{ form.name.id_for_label }}" class="form-label">{% trans "Nom" %} <span class="text-danger">*</span></label>
+                            {{ form.name }}
+                            {% if form.name.errors %}<div class="text-danger small">{{ form.name.errors|join:", " }}</div>{% endif %}
+                        </div>
+                        <div class="col-md-6">
+                            <label for="{{ form.email.id_for_label }}" class="form-label">{% trans "Email" %} <span class="text-danger">*</span></label>
+                            {{ form.email }}
+                            {% if form.email.errors %}<div class="text-danger small">{{ form.email.errors|join:", " }}</div>{% endif %}
+                        </div>
+                        <div class="col-md-6">
+                            <label for="{{ form.phone.id_for_label }}" class="form-label">{% trans "Téléphone" %}</label>
+                            {{ form.phone }}
+                            {% if form.phone.errors %}<div class="text-danger small">{{ form.phone.errors|join:", " }}</div>{% endif %}
+                        </div>
+                        <div class="col-md-6">
+                            <label for="{{ form.subject.id_for_label }}" class="form-label">{% trans "Sujet" %} <span class="text-danger">*</span></label>
+                            {{ form.subject }}
+                            {% if form.subject.errors %}<div class="text-danger small">{{ form.subject.errors|join:", " }}</div>{% endif %}
+                        </div>
+                        <div class="col-12">
+                            <label for="{{ form.message.id_for_label }}" class="form-label">{% trans "Message" %} <span class="text-danger">*</span></label>
+                            {{ form.message }}
+                            {% if form.message.errors %}<div class="text-danger small">{{ form.message.errors|join:", " }}</div>{% endif %}
+                        </div>
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="fas fa-paper-plane me-2"></i>{% trans "Envoyer le message" %}
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

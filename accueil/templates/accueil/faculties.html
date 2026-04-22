@@ -1,0 +1,59 @@
+{% extends 'accueil/base.html' %}
+
+{% block title %}Facultés - Université{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="page-header">
+    <div class="container">
+        <h1>Nos Facultés</h1>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'home' %}">Accueil</a></li>
+                <li class="breadcrumb-item active">Facultés</li>
+            </ol>
+        </nav>
+    </div>
+</section>
+
+<!-- Faculties Section -->
+<section class="faculties-list py-5">
+    <div class="container">
+        <div class="row">
+            {% for faculty in faculties %}
+            <div class="col-lg-6 mb-4">
+                <div class="faculty-item">
+                    <div class="row">
+                        {% if faculty.image %}
+                        <div class="col-md-5">
+                            <img src="{{ faculty.image.url }}" alt="{{ faculty.name }}" class="img-fluid rounded">
+                        </div>
+                        {% endif %}
+                        <div class="col-md-7">
+                            <h3>{{ faculty.name }}</h3>
+                            <p>{{ faculty.description|truncatewords:30 }}</p>
+                            {% if faculty.dean %}
+                            <p class="dean-info"><strong>Doyen:</strong> {{ faculty.dean }}</p>
+                            {% endif %}
+                            <div class="faculty-contact">
+                                {% if faculty.email %}
+                                <a href="mailto:{{ faculty.email }}"><i class="fas fa-envelope"></i> {{ faculty.email }}</a>
+                                {% endif %}
+                                {% if faculty.phone %}
+                                <a href="tel:{{ faculty.phone }}"><i class="fas fa-phone"></i> {{ faculty.phone }}</a>
+                                {% endif %}
+                            </div>
+                            <a href="{% url 'faculty_detail' faculty.slug %}" class="btn btn-primary mt-3">Voir les départements</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center">
+                <p>Aucune faculté enregistrée pour le moment.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}
